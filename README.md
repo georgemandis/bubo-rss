@@ -1,6 +1,6 @@
 # 🦉 Bubo Reader
 
-Bubo is a somewhat irrationally minimalist <acronym title="Really Simple Syndication">RSS</acronym> and <acronym title="JavaScript Object Notation">JSON</acronym> feed reader you can deploy on [Netlify](https://netlify.com) in a few steps. The goal of the project is to generate a webpage that shows a list of links from a collection of feeds organized by category and website. That's it. 
+Bubo Reader is a somewhat irrationally minimalist <acronym title="Really Simple Syndication">RSS</acronym> and <acronym title="JavaScript Object Notation">JSON</acronym> feed reader you can deploy on [Netlify](https://netlify.com) in a few steps. The goal of the project is to generate a webpage that shows a list of links from a collection of feeds organized by category and website. That's it. 
 
 It is named after this [silly robot owl](https://www.youtube.com/watch?v=MYSeCfo9-NI) from Clash of the Titans (1981).
 
