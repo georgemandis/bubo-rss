@@ -45,13 +45,6 @@ The beauty of running Bubo on Netlify is you can [setup a Build Hook](https://ww
 - Go to Netlify and deploy site from GitHub.
 - That's it!
 
-You'll probably want it to update regularly though.
-
-### Instructiosn for IFTTT
-### Instructions for Zapier
-### Instructions for EasyCron
-### Instructions for cronjob (local or otherwise)
-
 ## Sponsor
 
 If you found this useful please consider sponsoring me or this project. If you'd rather run this on your own server please consider using one of these affiliates links to setup a $5 instance on [Linode](https://www.linode.com/?r=8729957ab02b50a695dcea12a5ca55570979d8b9) or [Digital Ocean](https://m.do.co/c/31f58d367777).
