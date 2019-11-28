@@ -4,12 +4,14 @@
   "description": "A somewhat dumb but effective feed reader (RSS, JSON & Twitter)",
   "main": "src/index.js",
   "scripts": {
+    "build": "node src/index.js > output/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "puppeteer": "^1.17.0",
+    "node-fetch": "^2.6.0",
+    "nunjucks": "^3.2.0",
     "rss-parser": "^3.6.3"
   }
 }

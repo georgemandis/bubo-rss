@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>🦉 Bubo Reader</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <h1>🦉 Bubo Reader</h1>
+
+  {% for group, feeds in data %}    
+  <h2>{{ group }}</h2>
+    {% for feed  in feeds %} 
+      <details>
+        <summary>
+          <span class="feed-title">{{ feed.title }}</span> 
+          <span class="feed-url">({{ feed.feed }})</span>
+        </summary>
+        <ul>
+          {% for item in feed.items %}
+            <li>              
+              {{ item.timestamp | formatDate }} - <a href="{{ item.link }}" target='_blank' rel='noopener norefferer nofollow'>{{ item.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </details>
+    {% endfor %}
+  {% endfor %}  
+
+  {% if errors | length > 0 %}
+    <h2>Errors</h2>
+    <p>There were errors trying to parse these feeds:</p>
+    <ul>
+    {% for error in errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+</body>
+</html>
