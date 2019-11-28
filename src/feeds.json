@@ -1,8 +1,15 @@
-{  
-  "Blogs": [    
-    "https://george.mand.is/feed.xml"    
+{
+  "Web Development": [
+    "https://hacks.mozilla.org/",
+    "https://blog.mozilla.org/feed/",
+    "https://web.dev/feed.xml",
+    "https://alistapart.com/main/feed/",
+    "https://css-tricks.com/feed/"
   ],
-  "GitHub": [
+  "Blogs": [
+    "https://george.mand.is/feed.xml"
+  ],
+  "My GitHub Projects": [
     "https://github.com/georgemandis.atom",
     "https://github.com/snaptortoise/konami-js/releases.atom",
     "https://github.com/snaptortoise/konami-js/commits/master.atom",
