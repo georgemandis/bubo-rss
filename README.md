@@ -38,4 +38,3 @@ If you already have a server running Linux and some command-line experience it m
 ## Support
 
 If you found this useful please consider sponsoring me or this project. If you'd rather run this on your own server please consider using one of these affiliate links to setup a micro instance on [Linode](https://www.linode.com/?r=8729957ab02b50a695dcea12a5ca55570979d8b9) or [Digital Ocean](https://m.do.co/c/31f58d367777).
- 
