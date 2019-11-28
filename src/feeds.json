@@ -3,7 +3,7 @@
     "https://george.mand.is/feed.xml"    
   ],
   "GitHub": [
-    "https://github.com/georgemandis.atom?tab=repositories",
+    "https://github.com/georgemandis.atom",
     "https://github.com/snaptortoise/konami-js/releases.atom",
     "https://github.com/snaptortoise/konami-js/commits/master.atom",
     "https://github.com/javascriptforartists/cheer-me-up-and-sing-me-a-song/commits/master.atom",
