@@ -5,7 +5,8 @@
     "https://web.dev/feed.xml",
     "https://v8.dev/blog.atom",
     "https://alistapart.com/main/feed/",
-    "https://css-tricks.com/feed/"
+    "https://css-tricks.com/feed/",
+    "https://dev.to/feed"
   ],
   "Blogs": [
     "https://george.mand.is/feed.xml"
