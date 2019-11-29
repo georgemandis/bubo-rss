@@ -20,8 +20,7 @@ env.addFilter("formatDate", function(dateString) {
   return formattedDate !== 'Invalid Date' ? formattedDate : dateString;
 });
 
-const buildDate = new Date();
-env.addGlobal('now', `${buildDate.toLocaleDateString()} ${buildDate.toLocaleTimeString()}` );
+env.addGlobal('now', (new Date()).toUTCString() );
 
 // parse XML or JSON feeds
 function parseFeed(response) {
