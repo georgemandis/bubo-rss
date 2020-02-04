@@ -47,15 +47,6 @@ The GitHub Action is setup to build and commit directly to the `master` branch, 
 - `src/feeds.json` - a JSON file containing the URLs for various site's feeds separated into categories
 - `src/index.js` - the script that loads the feeds and does the actual parsinga and rendering
 
-## Demos
-
-You can view live demos here:
-
-- [https://bubo-rss-demo.netlify.com/](https://bubo-rss-demo.netlify.com/)
-- [http://bubo-rss.glitch.me/](http://bubo-rss.glitch.me/)
-
-Not the most exciting-looking demos, I'll admit, but they work!
-
 ## Support
 
 If you found this useful please consider sponsoring me or this project. If you'd rather run this on your own server please consider using one of these affiliate links to setup a micro instance on [Linode](https://www.linode.com/?r=8729957ab02b50a695dcea12a5ca55570979d8b9), [Digital Ocean](https://m.do.co/c/31f58d367777) or [Vultr](https://www.vultr.com/?ref=8403978).
