@@ -1,6 +1,6 @@
 # 🦉 Bubo Reader
 
-Bubo Reader is a somewhat irrationally minimalist <acronym title="Really Simple Syndication">RSS</acronym> and <acronym title="JavaScript Object Notation">JSON</acronym> feed reader you can deploy on [Netlify](https://netlify.com) in a few steps. The goal of the project is to generate a webpage that shows a list of links from a collection of feeds organized by category and website. That's it. 
+Bubo Reader is a somewhat irrationally minimalist <acronym title="Really Simple Syndication">RSS</acronym> and <acronym title="JavaScript Object Notation">JSON</acronym> feed reader you can deploy on [Netlify](https://netlify.com) in a few steps or [Glitch](https://glitch.com) in even fewer steps! The goal of the project is to generate a webpage that shows a list of links from a collection of feeds organized by category and website. That's it.
 
 It is named after this [silly robot owl](https://www.youtube.com/watch?v=MYSeCfo9-NI) from Clash of the Titans (1981).
 
@@ -8,9 +8,21 @@ You can read more about how this project came about in my blog post '[Introducin
 
 ## Getting Started
 
-How to use Bubo Reader in a few easy steps with GitHub and Netlify:
+How to deploy Bubo Reader in a few easy steps with Netlify or Glitch:
 
-### Deploying from GitHub to Netlify
+### Deploying to Glitch
+
+The quickest way is to remix the project on Glitch:
+[https://glitch.com/edit/#!/bubo-rss](https://glitch.com/edit/#!/bubo-rss)
+
+Just changed some feeds in `./src/feeds.json` file and you're set! If you'd like to modify the style or the template you can changed `./output/style.css` file or the `./src/template.html` file respectively.
+
+There is also a special `glitch` branch you can clone if you prefer:
+[https://github.com/georgemandis/bubo-rss/tree/glitch](https://github.com/georgemandis/bubo-rss/tree/glitch)
+
+The only difference between this branch and `master` is that it spins up a server using Express to serve your `./output/index.html` file on Glitch. Everything else is the same.
+
+### Deploying to Netlify
 
 - [Fork the repository](https://github.com/georgemandis/bubo-rss/fork)
 - From your forked repository go to and edcit `src/feeds.json` to manage your feeds and categories
