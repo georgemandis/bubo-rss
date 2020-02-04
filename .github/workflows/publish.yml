@@ -1,0 +1,35 @@
+name: Publish with GitHub Actions
+
+on:
+  push:
+    branches:
+    - master
+  schedule:
+    # Run this script every 15 minutes
+    - cron:  '*/15 * * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout master branch
+      uses: actions/checkout@v2
+      with:
+        ref: master
+    - name: Setup Node.js and install dependencies
+      uses: actions/setup-node@v1
+      with:
+        node-version: 11.4.0
+    - run: npm install
+    - name: Run build and parse RSS feeds
+    - run: npm run build --if-present
+    - name: Commit latest build to ./output folder
+      uses: github-actions-x/commit@v2.3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        push-branch: 'master'
+        commit-message: 'Published latest changes to RSS feeds'
+        force-add: 'true'
+        files: output/*
+        name: GitHub Action Bubo Bot
+        email: action@github.com
