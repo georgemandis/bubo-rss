@@ -1,13 +1,13 @@
 name: Publish with GitHub Actions
 
-# # Uncommen the "on" block below to use
-# on:
-#   push:
-#     branches:
-#     - master
-#   schedule:
-#     # Run this script every 15 minutes
-#     - cron:  '*/15 * * * *'
+# Uncommen the "on" block below to use
+on:
+  push:
+    branches:
+    - master
+  schedule:
+    # Run this script every 15 minutes
+    - cron:  '*/15 * * * *'
 
 jobs:
   build:
