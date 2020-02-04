@@ -22,7 +22,7 @@ The deploy settings should automatically import from the `netlify.toml` file. Al
 
 #### Using Netlify Webhooks
 
-To keep your feeds up to date you'll want to [setup a Build Hook](https://www.netlify.com/docs/webhooks/#incoming-webhooks) for your Netlify site and use another service to ping it every so often to trigger a rebuild. I'd suggeste looking into:
+To keep your feeds up to date you'll want to [setup a Build Hook](https://www.netlify.com/docs/webhooks/#incoming-webhooks) for your Netlify site and use another service to ping it every so often to trigger a rebuild. I'd suggest looking into:
 
 - [IFTTT](https://ifttt.com/)
 - [Zapier](https://zapier.com/)
