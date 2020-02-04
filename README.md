@@ -20,7 +20,7 @@ Just changed some feeds in `./src/feeds.json` file and you're set! If you'd like
 There is also a special `glitch` branch you can clone if you prefer:
 [https://github.com/georgemandis/bubo-rss/tree/glitch](https://github.com/georgemandis/bubo-rss/tree/glitch)
 
-The only difference between this branch and `master` is that it spins up a server using Express to serve your `./output/index.html` file on Glitch. Everything else is the same.
+The only difference between this branch and `master` is that it spins up a server using [Express](https://expressjs.com/) to serve your `./output/index.html` file on Glitch. Everything else is the same.
 
 ### Deploying to Netlify
 
