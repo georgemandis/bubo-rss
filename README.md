@@ -36,7 +36,7 @@ This approach is a little different and requires some modifications to the repos
 
 How is the The GitHub Action-based approach different? The same build process runs, but this time it's on GitHub's servers via the Action. It then **commits** the newly created file generated at `./output/index.html` back into the repository. Netlify still gets pinged when the repository is updated, but skips the `npm run build` step on their end, which significantly reduces the number of build minutes required.
 
-**Short Answer**: use the `github-action-publishing` branch for now if you'd prefer to use GitHub Actions to run your builds. 
+**Short Answer**: use the [`github-action-publishing`](https://github.com/georgemandis/bubo-rss/tree/github-action-publishing) branch for now if you'd prefer to use GitHub Actions to run your builds. 
 
 The GitHub Action is setup to build and commit directly to the `master` branch, which is not the best practice. I'd suggest creating a separate branch to checkout and commit changes to in the Action. You could then specify that same branch as the one to checkout and publish on Netlify.
 
