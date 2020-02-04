@@ -9,7 +9,8 @@
     "https://dev.to/feed"
   ],
   "Blogs": [
-    "https://george.mand.is/feed.xml"
+    "https://george.mand.is/feed.xml",
+    "https://joy.recurse.com/feed.atom"
   ],
   "My GitHub Projects": [
     "https://github.com/georgemandis.atom",
