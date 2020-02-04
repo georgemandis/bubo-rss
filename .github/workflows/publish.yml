@@ -6,7 +6,7 @@ on:
     - master
   schedule:
     # Run this script every 15 minutes
-    - cron:  '*/15 * * * *'
+    # - cron:  '*/15 * * * *'
 
 jobs:
   build:
