@@ -1,16 +1,36 @@
 # 🦉 Bubo Reader
 
-Bubo Reader is a somewhat irrationally minimalist <acronym title="Really Simple Syndication">RSS</acronym> and <acronym title="JavaScript Object Notation">JSON</acronym> feed reader you can deploy on [Netlify](https://netlify.com) in a few steps or [Glitch](https://glitch.com) in even fewer steps! The goal of the project is to generate a webpage that shows a list of links from a collection of feeds organized by category and website. That's it.
+Bubo Reader is a hyper-minimalist <acronym title="Really Simple Syndication">RSS</acronym> and <acronym title="JavaScript Object Notation">JSON</acronym> feed reader you can deploy on [Netlify](https://netlify.com) in a few steps or [Glitch](https://glitch.com) in even fewer steps! The goal of the project is to generate a webpage that shows a list of links from a collection of feeds organized by category and website. That's it.
 
 It is named after this [silly robot owl](https://www.youtube.com/watch?v=MYSeCfo9-NI) from Clash of the Titans (1981).
 
 You can read more about how this project came about in my blog post '[Introducing Bubo RSS: An Absurdly Minimalist RSS Feed Reader](https://george.mand.is/2019/11/introducing-bubo-rss-an-absurdly-minimalist-rss-feed-reader/)'
 
-## Getting Started
+## Anatomy of Bubo Reader
 
-How to deploy Bubo Reader in a few easy steps with Netlify or Glitch:
+- `src/index.html` - a [Nunjucks](https://mozilla.github.io/nunjucks/) template that lets you change how the feeds are displayed
+- `output/style.css` - a CSS file to stylize your feed output
+- `src/feeds.json` - a JSON file containing the URLs for various site's feeds separated into categories
+- `src/index.js` - the script that loads the feeds and does the actual parsinga and rendering
 
-### Deploying to Glitch
+## Demos
+
+You can view live demos here:
+
+- [https://bubo-rss-demo.netlify.com/](https://bubo-rss-demo.netlify.com/)
+- [http://bubo-rss.glitch.me/](http://bubo-rss.glitch.me/)
+
+Not the most exciting-looking demos, I'll admit, but they work!
+
+**Getting Started**
+
+- [Deploying to Glitch](#glitch)
+- [Deploying to Netlify](#netlify)
+- [Keeping feeds updated](#updated)
+
+
+<a id="glitch"></a>
+## Deploying to Glitch
 
 The quickest way is to remix the project on Glitch:
 [https://glitch.com/edit/#!/bubo-rss](https://glitch.com/edit/#!/bubo-rss)
@@ -22,7 +42,8 @@ There is also a special `glitch` branch you can clone if you prefer:
 
 The only difference between this branch and `master` is that it spins up a server using [Express](https://expressjs.com/) to serve your `./output/index.html` file on Glitch. Everything else is the same.
 
-### Deploying to Netlify
+<a id="netlify"></a>
+## Deploying to Netlify
 
 - [Fork the repository](https://github.com/georgemandis/bubo-rss/fork)
 - From your forked repository go to and edcit `src/feeds.json` to manage your feeds and categories
@@ -30,6 +51,7 @@ The only difference between this branch and `master` is that it spins up a serve
 
 The deploy settings should automatically import from the `netlify.toml` file. All you'll need to do is confirm and you're ready to go!
 
+<a id="updated"></a>
 ### Keeping Feeds Updated
 
 #### Using Netlify Webhooks
@@ -51,22 +73,6 @@ How is the The GitHub Action-based approach different? The same build process ru
 **Short Answer**: use the [`github-action-publishing`](https://github.com/georgemandis/bubo-rss/tree/github-action-publishing) branch for now if you'd prefer to use GitHub Actions to run your builds. 
 
 The GitHub Action is setup to build and commit directly to the `master` branch, which is not the best practice. I'd suggest creating a separate branch to checkout and commit changes to in the Action. You could then specify that same branch as the one to checkout and publish on Netlify.
-
-## Anatomy of Bubo Reader
-
-- `src/index.html` - a [Nunjucks](https://mozilla.github.io/nunjucks/) template that lets you change how the feeds are displayed
-- `output/style.css` - a CSS file to stylize your feed output
-- `src/feeds.json` - a JSON file containing the URLs for various site's feeds separated into categories
-- `src/index.js` - the script that loads the feeds and does the actual parsinga and rendering
-
-## Demos
-
-You can view live demos here:
-
-- [https://bubo-rss-demo.netlify.com/](https://bubo-rss-demo.netlify.com/)
-- [http://bubo-rss.glitch.me/](http://bubo-rss.glitch.me/)
-
-Not the most exciting-looking demos, I'll admit, but they work!
 
 ## Support
 
