@@ -77,3 +77,8 @@ The GitHub Action is setup to build and commit directly to the `master` branch, 
 ## Support
 
 If you found this useful please consider sponsoring me or this project. If you'd rather run this on your own server please consider using one of these affiliate links to setup a micro instance on [Linode](https://www.linode.com/?r=8729957ab02b50a695dcea12a5ca55570979d8b9), [Digital Ocean](https://m.do.co/c/31f58d367777) or [Vultr](https://www.vultr.com/?ref=8403978).
+
+## Showcase
+
+Here are some websites using Bubo Reader:
+- [Kevin Fiol](https://kevinfiol.com/reader/) ([repo](https://github.com/kevinfiol/reader))
