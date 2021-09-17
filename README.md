@@ -46,7 +46,7 @@ The only difference between this branch and `master` is that it spins up a serve
 ## Deploying to Netlify
 
 - [Fork the repository](https://github.com/georgemandis/bubo-rss/fork)
-- From your forked repository go to and edcit `src/feeds.json` to manage your feeds and categories
+- From your forked repository go to and edit `src/feeds.json` to manage your feeds and categories
 - [Create a new site](https://app.netlify.com/start) on Netlify from GitHub 
 
 The deploy settings should automatically import from the `netlify.toml` file. All you'll need to do is confirm and you're ready to go!
@@ -66,13 +66,13 @@ If you already have a server running Linux and some command-line experience it m
 
 #### Using GitHub Actions
 
-This approach is a little different and requires some modifications to the repository. Netlify started billing for [build minutes](https://www.netlify.com/pricing/faq/) very shortly after I published this project. Running `npm build` and downloading all of the RSS feeds took up a substantial number of this minutes, particulary if you had some kind of process pinging the webhook and trigger a build every 15 minutes or so.
+This approach is a little different and requires some modifications to the repository. Netlify started billing for [build minutes](https://www.netlify.com/pricing/faq/) very shortly after I published this project. Running `npm build` and downloading all of the RSS feeds took up a substantial number of these, particulary if you had a process pinging the webhook and triggering a build every 15 minutes or so.
 
-How is the The GitHub Action-based approach different? The same build process runs, but this time it's on GitHub's servers via the Action. It then **commits** the newly created file generated at `./output/index.html` back into the repository. Netlify still gets pinged when the repository is updated, but skips the `npm run build` step on their end, which significantly reduces the number of build minutes required.
+How is the The GitHub Action-based approach different? The same build process runs, but this time it's on GitHub's servers via the Action. It then **commits** the newly created file generated at `./output/index.html` back into the repository. Netlify still gets pinged when the repository is updated, but skips the `npm run build` step on their end. This significantly reduces the number of build minutes required.
 
-**Short Answer**: use the [`github-action-publishing`](https://github.com/georgemandis/bubo-rss/tree/github-action-publishing) branch for now if you'd prefer to use GitHub Actions to run your builds. 
+**TLDR**: use the [`github-action-publishing`](https://github.com/georgemandis/bubo-rss/tree/github-action-publishing) branch for now if you'd prefer to use GitHub Actions.
 
-The GitHub Action is setup to build and commit directly to the `master` branch, which is not the best practice. I'd suggest creating a separate branch to checkout and commit changes to in the Action. You could then specify that same branch as the one to checkout and publish on Netlify.
+**Note:** The GitHub Action is setup to build and commit directly to the `master` branch, which is not the best practice. I'd suggest creating a separate branch to checkout and commit changes to in the action. You could then specify that same branch as the one to checkout and publish on Netlify.
 
 ## Support
 
