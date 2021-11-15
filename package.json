@@ -1,7 +1,7 @@
 {
-  "name": "bubo-reader",
-  "version": "1.0.0",
-  "description": "A somewhat dumb but effective feed reader (RSS, JSON & Twitter)",
+  "name": "bubo-reader-glitch",
+  "version": "1.0.1",
+  "description": "A Glitch-ready implementation of Bubo Reader",
   "main": "src/index.js",
   "scripts": {
     "build": "node src/index.js > output/index.html",
