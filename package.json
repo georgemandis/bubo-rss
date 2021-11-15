@@ -1,17 +1,19 @@
 {
-  "name": "bubo-reader-glitch",
+  "name": "bubo-reader",
   "version": "1.0.1",
   "description": "A Glitch-ready implementation of Bubo Reader",
   "main": "src/index.js",
   "scripts": {
+    "start": "node src/index.js > output/index.html; node server.js",
     "build": "node src/index.js > output/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.0",
     "nunjucks": "^3.2.0",
-    "rss-parser": "^3.6.3"
+    "rss-parser": "^3.7.5",
+    "express": "^4.17.1"
   }
 }
