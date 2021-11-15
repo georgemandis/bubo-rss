@@ -1,12 +1,16 @@
 # 🦉 Bubo Reader
 
-Bubo Reader is a somewhat irrationally minimalist <acronym title="Really Simple Syndication">RSS</acronym> and <acronym title="JavaScript Object Notation">JSON</acronym> feed reader you can deploy on [Netlify](https://netlify.com) in a few steps or [Glitch](https://glitch.com) in even fewer steps! The goal of the project is to generate a webpage that shows a list of links from a collection of feeds organized by category and website. That's it.
+Bubo Reader is a borderline-irrationally minimalist <acronym title="Really Simple Syndication">RSS</acronym> and <acronym title="JavaScript Object Notation">JSON</acronym> feed reader you can deploy anywhere. Your own server, [Netlify](https://netlify.com) in a few steps or [Glitch](https://glitch.com) in even fewer steps! The goal of this project is to generate a page that shows a list of links from a collection of feeds organized by category and website. That's it.
 
 It is named after this [silly robot owl](https://www.youtube.com/watch?v=MYSeCfo9-NI) from Clash of the Titans (1981).
 
 You can read more about how this project came about in my blog post '[Introducing Bubo RSS: An Absurdly Minimalist RSS Feed Reader](https://george.mand.is/2019/11/introducing-bubo-rss-an-absurdly-minimalist-rss-feed-reader/)'
 
 ## Getting Started
+
+Run `npm install` from the root of the folder. When the dependencies are finished installing run `npm run build`. The `output` folder will contain the final page build and can be opened right away.
+
+## Deploying
 
 How to deploy Bubo Reader in a few easy steps with Netlify or Glitch:
 
