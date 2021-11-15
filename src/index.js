@@ -93,7 +93,7 @@ const getTimestamp = (obj) => {
   const contentFromAllFeeds = {};
   const errors = [];
 
-  for (group in feeds) {
+  for (const group in feeds) {
     contentFromAllFeeds[group] = [];
 
     for (let index = 0; index < feeds[group].length; index++) {
