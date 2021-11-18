@@ -11,7 +11,7 @@ You can read more about how this project came about in my blog post '[Introducin
 - `src/index.html` - a [Nunjucks](https://mozilla.github.io/nunjucks/) template that lets you change how the feeds are displayed
 - `output/style.css` - a CSS file to stylize your feed output
 - `src/feeds.json` - a JSON file containing the URLs for various site's feeds separated into categories
-- `src/index.js` - the script that loads the feeds and does the actual parsinga and rendering
+- `src/index.js` - the script that loads the feeds and does the actual parsing and rendering
 
 ## Demos
 
@@ -65,7 +65,7 @@ If you already have a server running Linux and some command-line experience it m
 
 #### Using GitHub Actions
 
-This approach is a little different and requires some modifications to the repository. Netlify started billing for [build minutes](https://www.netlify.com/pricing/faq/) very shortly after I published this project. Running `npm build` and downloading all of the RSS feeds took up a substantial number of these, particulary if you had a process pinging the webhook and triggering a build every 15 minutes or so.
+This approach is a little different and requires some modifications to the repository. Netlify started billing for [build minutes](https://www.netlify.com/pricing/faq/) very shortly after I published this project. Running `npm build` and downloading all of the RSS feeds took up a substantial number of these, particularly if you had a process pinging the webhook and triggering a build every 15 minutes or so.
 
 How is the The GitHub Action-based approach different? The same build process runs, but this time it's on GitHub's servers via the Action. It then **commits** the newly created file generated at `./output/index.html` back into the repository. Netlify still gets pinged when the repository is updated, but skips the `npm run build` step on their end. This significantly reduces the number of build minutes required.
 
