@@ -1,6 +1,6 @@
 {
   "Blogs": [
-    "https://george.mand.is/feed.xml",
+    "https://george.mand.is/feed.json",
     "https://joy.recurse.com/feed.atom"
   ]
 }
