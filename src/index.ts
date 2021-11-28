@@ -29,10 +29,6 @@ for (const [group, feeds] of Object.entries(feedList)) {
   for (const feed of feeds) {
     try {
 
-      if (DEBUG) {
-        console.log(feed);
-      }
-
       const response = await fetch(feed);
       const body = await parseFeed(response);
 
@@ -41,7 +37,6 @@ for (const [group, feeds] of Object.entries(feedList)) {
 
       const contents: FeedItem =
         (typeof body === "string" ? (await parser.parseString(body)) : body) as FeedItem;
-
 
       contents.feed = feed;
       contents.title = getTitle(contents);
