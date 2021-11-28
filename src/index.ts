@@ -23,13 +23,16 @@ const parser = new Parser();
 const feedList = await getFeedList();
 const contentFromAllFeeds: Feeds = {};
 const errors: unknown[] = [];
-const allFetches = [];
+const allFetches: Promise<boolean | void | undefined>[] = [];
 
+const MAX_CONNECTIONS = 2;
+let connections = 0;
+
+const initTime = Date.now();
+const benchmark = (startTime: number) => chalk.cyanBright.bold(`(${(Date.now() - startTime) / 1000} seconds)`);
 
 const error = chalk.bold.red;
 const success = chalk.bold.green;
-const time = chalk.cyanBright.bold;
-
 
 // process each feed and its content
 const processFeed = (
@@ -37,6 +40,7 @@ const processFeed = (
     group, feed, startTime
   }: { group: string; feed: string, startTime: number }
 ) => async (response: Response) => {
+  connections--;
   const body = await parseFeed(response);
 
   // skip to the next one if this didn't work out
@@ -57,10 +61,10 @@ const processFeed = (
       item.link = getLink(item);
     });
     contentFromAllFeeds[group].push(contents as object);
-    console.log(`${success("Successfully fetched:")} ${feed}`, time(`(${((Date.now() - startTime) / 1000)} seconds)`));
+    console.log(`${success("Successfully fetched:")} ${feed} ${benchmark(startTime)}`);
     return true;
   } catch (err) {
-    console.log(`${error("Error processing:")} ${feed} (${((Date.now() - startTime) / 1000)} seconds)`);
+    console.log(`${error("Error processing:")} ${feed} ${benchmark(startTime)}`);
     errors.push(err);
     return false;
   }
@@ -69,15 +73,18 @@ const processFeed = (
 
 
 // go through each group of feeds and process them
+
 for (const [group, feeds] of Object.entries(feedList)) {
   contentFromAllFeeds[group] = [];
 
   for (const feed of feeds) {
-    console.log(`Fetching ${feed}...`);
+    // throttle if we're exceeding MAX_CONNECTIONS
+    connections++;
+    console.log(`Fetching: ${feed}...`);
     const startTime = Date.now();
     allFetches.push(
       fetch(feed).then(processFeed({ group, feed, startTime })).catch(err => {
-        console.log(error(`Error fetching ${feed} (${((Date.now() - startTime) / 1000)} seconds)`));
+        console.log(error(`Error fetching ${feed} ${benchmark(startTime)}`));
         errors.push(`Error fetching ${feed} ${err.toString()}`);
       })
     );
@@ -88,6 +95,7 @@ for (const [group, feeds] of Object.entries(feedList)) {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 Promise.all(allFetches).then(async () => {
   console.log("\nDone fetching everything!");
+
   // generate the static HTML output from our template renderer
   const output = render({
     data: contentFromAllFeeds,
@@ -96,6 +104,6 @@ Promise.all(allFetches).then(async () => {
 
   // write the output to public/index.html
   await writeFile("./public/index.html", output);
-
+  console.log(`Finished writing to output. ${benchmark(initTime)}`);
 });
 
