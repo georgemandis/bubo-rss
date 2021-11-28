@@ -13,8 +13,8 @@ import { ContentFromAllFeeds } from "./@types/bubo";
  * Global filters for my Nunjucks templates
  */
 env.addFilter("formatDate", function (dateString): string {
-  const formattedDate: string = new Date(parseInt(dateString)).toLocaleDateString();
-  return formattedDate !== "Invalid Date" ? formattedDate : dateString;
+  const date: Date = new Date(parseInt(dateString));
+  return !isNaN(date.getTime()) ? date.toLocaleString() : dateString;
 });
 
 env.addGlobal("now", (new Date()).toUTCString());
