@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsc --watch",
+    "clean": "rm -rf dist",
     "build": "tsc && node dist/index.js > public/index.html",
     "build:bubo": "node dist/index.js > public/index.html"
   },
