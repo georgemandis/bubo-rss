@@ -16,8 +16,6 @@ import { Feeds, FeedItem } from "./@types/bubo";
 import { render } from "./renderer.js";
 import { getLink, getTitle, getTimestamp, parseFeed, getFeedList } from "./utilities.js";
 
-const DEBUG = false;
-
 const parser = new Parser();
 const feedList = await getFeedList();
 const contentFromAllFeeds: Feeds = {};
@@ -64,7 +62,4 @@ const output = render({
 });
 
 // return the rendered console and save it somewhere.
-if (!DEBUG) {
-  console.log(output);
-}
-
+console.log(output);
