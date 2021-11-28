@@ -14,7 +14,7 @@ import { ContentFromAllFeeds } from "./@types/bubo";
  */
 env.addFilter("formatDate", function (dateString): string {
   const date: Date = new Date(parseInt(dateString));
-  return !isNaN(date.getTime()) ? date.toLocaleString() : dateString;
+  return !isNaN(date.getTime()) ? date.toLocaleDateString() : dateString;
 });
 
 env.addGlobal("now", (new Date()).toUTCString());
