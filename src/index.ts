@@ -39,16 +39,17 @@ for (const [group, feeds] of Object.entries(feedList)) {
       // skip to the next one if this didn't work out
       if (!body) continue;
 
-      const contents: any =
-          typeof body === "string" ? await parser.parseString(body) : body as { [key: string]: string };
+      const contents: FeedItem =
+        (typeof body === "string" ? (await parser.parseString(body)) : body) as FeedItem;
+
 
       contents.feed = feed;
       contents.title = getTitle(contents);
       contents.link = getLink(contents);
-      contentFromAllFeeds[group].push(contents);
+      contentFromAllFeeds[group].push(contents as object);
 
       // try to normalize date attribute naming
-      contents?.items?.forEach((item: { [key: string]: string }) => {
+      contents?.items?.forEach((item) => {
         item.timestamp = getTimestamp(item);
         item.title = getTitle(item);
         item.link = getLink(item);

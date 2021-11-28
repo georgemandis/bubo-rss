@@ -8,32 +8,34 @@
 
 import { Response } from "node-fetch";
 import { readFile } from "fs/promises";
+import { FeedItem, JSONValue } from "./@types/bubo";
 
-export const getLink = (obj: { [key: string]: string }): string => {
+export const getLink = (obj: FeedItem): string => {
   const link_values: string[] = ["link", "url", "guid", "home_page_url"];
   const keys: string[] = Object.keys(obj);
   const link_property: string | undefined = link_values.find(link_value => keys.includes(link_value));
-  return link_property ? obj[link_property] : "";
+  return link_property ? obj[link_property] as string : "";
 };
 
 
 // fallback to URL for the title if not present (coupled to my template)
-export const getTitle = (obj: { [key: string]: string }): string => {
+export const getTitle = (obj: FeedItem): string => {
   const title_values: string[] = ["title", "url", "link"]; // fallback to url/link as title if omitted
   const keys: string[] = Object.keys(obj);
   const title_property: string | undefined = title_values.find(title_value => keys.includes(title_value));
-  return title_property ? obj[title_property] : "";
+  return title_property ? obj[title_property] as string : "";
 };
 
 // More dependable way to get timestamps
-export const getTimestamp = (obj: { [key: string]: string }): string => {
-  const timestamp: number = new Date(obj.pubDate || obj.isoDate || obj.date || obj.date_published).getTime();
-  return isNaN(timestamp) ? (obj.pubDate || obj.isoDate || obj.date || obj.date_published) : timestamp.toString();
+export const getTimestamp = (obj: FeedItem): string => {
+  const dateString: string = (obj.pubDate || obj.isoDate || obj.date || obj.date_published).toString();
+  const timestamp: number = new Date(dateString).getTime();
+  return isNaN(timestamp) ? dateString : timestamp.toString();
 };
 
 
 // parse RSS/XML or JSON feeds
-export async function parseFeed(response: Response): Promise<{ [key: string]: string } | unknown> {
+export async function parseFeed(response: Response): Promise<JSONValue> {
   const contentType = response.headers.get("content-type")?.split(";")[0];
 
   if (!contentType) return {};
@@ -54,7 +56,7 @@ export async function parseFeed(response: Response): Promise<{ [key: string]: st
 
   const jsonFeed = [contentType]
     .map(item =>
-      ["application/json", "application/feed+json"].includes(item) ? response.json() : false
+      ["application/json", "application/feed+json"].includes(item) ? response.json() as Promise<JSONValue> : false
     )
     .filter(_ => _)[0];
 
@@ -62,7 +64,7 @@ export async function parseFeed(response: Response): Promise<{ [key: string]: st
 }
 
 
-export const getFeedList = async (): Promise<string> => {
+export const getFeedList = async (): Promise<JSONValue> => {
   return JSON.parse(
     (await readFile(
       new URL("../config/feeds.json", import.meta.url)
