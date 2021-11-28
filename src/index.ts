@@ -40,7 +40,7 @@ for (const [group, feeds] of Object.entries(feedList)) {
 
       contents.feed = feed;
       contents.title = getTitle(contents);
-      contents.link = getLink(contents);      
+      contents.link = getLink(contents);
 
       // try to normalize date attribute naming
       contents?.items?.forEach((item) => {
