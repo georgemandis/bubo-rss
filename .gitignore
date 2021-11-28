@@ -1,2 +1,4 @@
 node_modules/*
-output/index.html
+public/index.html
+dist/*
+.DS_Store
