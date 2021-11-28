@@ -1,11 +1,6 @@
-export interface ContentFromAllFeeds {
+export interface Feeds {
   [key: string]: object[]
 }
-
-export interface Feeds {
-  [key: string]: FeedItem
-}
-
 export interface FeedItem {
   [key: string]: string | number | Date | FeedItem[];
   items: FeedItem[]

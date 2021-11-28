@@ -12,7 +12,7 @@
 
 import fetch from "node-fetch";
 import Parser from "rss-parser";
-import { ContentFromAllFeeds, FeedItem } from "./@types/bubo";
+import { Feeds, FeedItem } from "./@types/bubo";
 import { render } from "./renderer.js";
 import { getLink, getTitle, getTimestamp, parseFeed, getFeedList } from "./utilities.js";
 
@@ -20,7 +20,7 @@ const DEBUG = false;
 
 const parser = new Parser();
 const feedList = await getFeedList();
-const contentFromAllFeeds: ContentFromAllFeeds = {};
+const contentFromAllFeeds: Feeds = {};
 const errors = [];
 
 for (const [group, feeds] of Object.entries(feedList)) {

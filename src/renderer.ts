@@ -7,7 +7,7 @@
 import nunjucks from "nunjucks";
 const env: nunjucks.Environment = nunjucks.configure({ autoescape: true });
 import { readFile } from "fs/promises";
-import { ContentFromAllFeeds } from "./@types/bubo";
+import { Feeds } from "./@types/bubo";
 
 /**
  * Global filters for my Nunjucks templates
@@ -26,7 +26,7 @@ const template: string =
   )).toString();
 
 // generate the static HTML output from our template renderer
-const render = ({ data, errors }: { data: ContentFromAllFeeds; errors: unknown[] }) => {
+const render = ({ data, errors }: { data: Feeds; errors: unknown[] }) => {
   return env.renderString(template, {
     data,
     errors
