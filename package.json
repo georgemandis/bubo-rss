@@ -7,8 +7,8 @@
   "scripts": {
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
-    "build": "tsc && node dist/index.js > public/index.html",
-    "build:bubo": "node dist/index.js > public/index.html"
+    "build": "tsc",
+    "start": "node dist/index.js"    
   },
   "author": {
     "name": "George Mandis",
@@ -21,6 +21,7 @@
   },
   "license": "ISC",
   "dependencies": {
+    "chalk": "^5.0.0",
     "node-fetch": "^3.1.0",
     "nunjucks": "^3.2.0",
     "rss-parser": "^3.6.3"
