@@ -1,0 +1,28 @@
+body {
+  font-family: system-ui;
+  font-size: 18px;
+}
+
+
+
+details:focus,
+details:focus-within,
+details:hover {
+  /* background:#ffeb3b; */
+  /* outline:2px #000 solid; */
+}
+
+
+details ul li {}
+
+summary {
+  cursor: pointer;
+}
+
+summary:hover {
+  opacity: .75;
+}
+
+.feed-url {
+  color: #aaa;
+}
