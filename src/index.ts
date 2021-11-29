@@ -21,23 +21,41 @@ import chalk from "chalk";
 
 const parser = new Parser();
 const feedList = await getFeedList();
-// calculate the total number of feeds to we can throttle
 const feedListLength = Object.entries(feedList).flat(2).length - Object.keys(feedList).length;
+
+/**
+ * contentFromAllFeeds = Contains normalized, aggregated feed data and is passed to template renderer at the end
+ * errors = Contains errors from parsing feeds and is also passed to template.
+ */
 const contentFromAllFeeds: Feeds = {};
 const errors: unknown[] = [];
-const allFetches: Promise<boolean | void | undefined>[] = [];
+
+// benchmarking data + utility
 const initTime = Date.now();
 const benchmark = (startTime: number) => chalk.cyanBright.bold(`(${(Date.now() - startTime) / 1000} seconds)`);
 
-// used to throttle fetches
+/**
+ * These values are used to control throttling/batching the fetches:
+ *  - MAX_CONNECTION = max number of fetches to contain in a batch
+ *  - DELAY_MS = the delay in milliseconds between batches
+ */
 const MAX_CONNECTIONS = Infinity;
 const DELAY_MS = 850;
 
 const error = chalk.bold.red;
 const success = chalk.bold.green;
 
+// keeping tally of total feeds fetched and parsed so we can compare
+// to feedListLength and know when we're finished.
 let completed = 0;
 
+
+/**
+ * finishBuild
+ * --
+ * function that gets called when all the feeds are through fetching
+ * and we want to build the static output.
+ */
 const finishBuild: () => void = async () => {
   console.log("\nDone fetching everything!");
 
@@ -52,12 +70,18 @@ const finishBuild: () => void = async () => {
   console.log(`Finished writing to output. ${benchmark(initTime)}`);
 };
 
-// process each feed and its content
+/**
+ * processFeed
+ * --
+ * Process an individual feed and normalize its items
+ * @param { group, feed, startTime}
+ * @returns Promise<void>
+ */
 const processFeed = (
   {
     group, feed, startTime
   }: { group: string; feed: string, startTime: number }
-) => async (response: Response) => {
+) => async (response: Response): Promise<void> => {
   const body = await parseFeed(response);
   completed++;
   // skip to the next one if this didn't work out
@@ -87,26 +111,33 @@ const processFeed = (
   }
 
   // if this is the last feed, go ahead and build the output
-  (completed === feedListLength - 1) && finishBuild();
+  (completed === feedListLength) && finishBuild();
 };
 
 
-let idx = 0;
 // go through each group of feeds and process
-for (const [group, feeds] of Object.entries(feedList)) {
-  contentFromAllFeeds[group] = [];
-  for (const feed of feeds) {
-    const startTime = Date.now();
-    setTimeout(() => {
-      console.log(`Fetching: ${feed}...`);
-      allFetches.push(
+const processFeeds = () => {
+  let idx = 0;
+
+  for (const [group, feeds] of Object.entries(feedList)) {
+    contentFromAllFeeds[group] = [];
+
+    for (const feed of feeds) {
+      const startTime = Date.now();
+      setTimeout(() => {
+        console.log(`Fetching: ${feed}...`);
+
         fetch(feed).then(processFeed({ group, feed, startTime })).catch(err => {
           console.log(error(`Error fetching ${feed} ${benchmark(startTime)}`));
           errors.push(`Error fetching ${feed} ${err.toString()}`);
-        })
-      );
-    }, (idx % (feedListLength / MAX_CONNECTIONS)) * DELAY_MS);
-    idx++;
-  }
-}
+        });
 
+      }, (idx % (feedListLength / MAX_CONNECTIONS)) * DELAY_MS);
+      idx++;
+    }
+
+  }
+};
+
+
+processFeeds();
