@@ -85,7 +85,9 @@ Not the most exciting-looking demos, I'll admit, but they work!
 The quickest way is to remix the project on Glitch:
 [https://glitch.com/edit/#!/bubo-rss](https://glitch.com/edit/#!/bubo-rss)
 
-Just changed some feeds in `./config/feeds.json` file and you're set! If you'd like to modify the style or the template you can changed `./public/style.css` file or the `./config/template.html` file respectively.
+There is also a `glitch` branch on this repo if you'd prefer to start there.
+
+Just change some feeds in `./config/feeds.json` file and you're set! If you'd like to modify the style or the template you can changed `./public/style.css` file or the `./config/template.html` file respectively.
 
 <a id="netlify"></a>
 ## Deploying to Netlify
