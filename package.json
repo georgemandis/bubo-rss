@@ -1,19 +1,44 @@
 {
   "name": "bubo-reader",
-  "version": "1.0.1",
-  "description": "A Glitch-ready implementation of Bubo Reader",
+  "version": "2.0.0",
+  "description": "A simple but effective feed reader (RSS, JSON)",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
-    "start": "node src/index.js > output/index.html; node server.js",
-    "build": "node src/index.js > output/index.html",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "build": "tsc",
+    "bubo": "node dist/index.js",
+    "build:bubo": "tsc && node dist/index.js",
+    "start": "npm run build:bubo; node server.js",    
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": {
+    "name": "George Mandis",
+    "email": "george@mand.is",
+    "url": "https://george.mand.is"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/georgemandis"
+  },
   "license": "ISC",
   "dependencies": {
-    "node-fetch": "^2.6.0",
+    "chalk": "^5.0.0",
+    "node-fetch": "^3.1.0",
     "nunjucks": "^3.2.0",
-    "rss-parser": "^3.7.5",
+    "rss-parser": "^3.6.3",
     "express": "^4.17.1"
+  },
+  "engines": { "node": "16.x" },
+  "devDependencies": {
+    "@types/node": "^16.11.10",
+    "@types/nunjucks": "^3.2.0",
+    "@types/xml2js": "^0.4.9",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "eslint": "^8.3.0",
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.2"
   }
 }
