@@ -8,7 +8,8 @@
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
     "build": "tsc",
-    "start": "node dist/index.js"    
+    "bubo": "node dist/index.js",
+    "build:bubo": "tsc && node dist/index.js"
   },
   "author": {
     "name": "George Mandis",
