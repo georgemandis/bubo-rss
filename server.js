@@ -2,7 +2,7 @@
 
 // init project
 import express from "express";
-import { URL } from 'url'; // in Browser, the URL in native accessible on window
+import { URL } from 'url';
 const __dirname = new URL('.', import.meta.url).pathname;
 
 const app = express();
