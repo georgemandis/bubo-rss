@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/81dd219c-51cb-4418-a18c-42c8b104c689/deploy-status)](https://app.netlify.com/sites/bubo-rss-demo/deploys)
+
 # 🦉 Bubo Reader (2.0)
 
 Bubo Reader is a hyper-minimalist <acronym title="Really Simple Syndication">RSS</acronym> and <acronym title="JavaScript Object Notation">JSON</acronym> feed reader you can deploy on your own server, [Netlify](https://netlify.com) in a few steps or [Glitch](https://glitch.com) in even fewer steps! The goal of the project is to generate a webpage that shows a list of links from a collection of feeds organized by category and website. That's it.
@@ -6,6 +8,7 @@ It is named after this [silly robot owl](https://www.youtube.com/watch?v=MYSeCfo
 
 You can read more about how this project came about on my blog:  
 - [Introducing Bubo RSS: An Absurdly Minimalist RSS Feed Reader](https://george.mand.is/2019/11/introducing-bubo-rss-an-absurdly-minimalist-rss-feed-reader/).
+
 
 ## Getting Started
 
@@ -85,7 +88,9 @@ Not the most exciting-looking demos, I'll admit, but they work!
 The quickest way is to remix the project on Glitch:
 [https://glitch.com/edit/#!/bubo-rss](https://glitch.com/edit/#!/bubo-rss)
 
-Just changed some feeds in `./config/feeds.json` file and you're set! If you'd like to modify the style or the template you can changed `./public/style.css` file or the `./config/template.html` file respectively.
+There is also a `glitch` branch on this repo if you'd prefer to start there.
+
+Just change some feeds in `./config/feeds.json` file and you're set! If you'd like to modify the style or the template you can changed `./public/style.css` file or the `./config/template.html` file respectively.
 
 <a id="netlify"></a>
 ## Deploying to Netlify
