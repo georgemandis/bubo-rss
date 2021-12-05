@@ -107,7 +107,7 @@ const processFeed = (
 
   } catch (err) {
     console.log(`${error("Error processing:")} ${feed} ${benchmark(startTime)}`);
-    errors.push(err);
+    errors.push(`Error processing: ${feed} | ${err}`);
   }
 
   // if this is the last feed, go ahead and build the output
