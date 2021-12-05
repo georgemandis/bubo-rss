@@ -15,13 +15,22 @@ import Parser from "rss-parser";
 import { Feeds, FeedItem } from "./@types/bubo";
 import { Response } from "node-fetch";
 import { render } from "./renderer.js";
-import { getLink, getTitle, getTimestamp, parseFeed, getFeedList } from "./utilities.js";
+import {
+  getLink,
+  getTitle,
+  getTimestamp,
+  parseFeed,
+  getFeedList,
+  getBuboInfo
+} from "./utilities.js";
 import { writeFile } from "fs/promises";
 import chalk from "chalk";
 
+const buboInfo = await getBuboInfo();
 const parser = new Parser();
 const feedList = await getFeedList();
-const feedListLength = Object.entries(feedList).flat(2).length - Object.keys(feedList).length;
+const feedListLength =
+  Object.entries(feedList).flat(2).length - Object.keys(feedList).length;
 
 /**
  * contentFromAllFeeds = Contains normalized, aggregated feed data and is passed to template renderer at the end
@@ -32,7 +41,8 @@ const errors: unknown[] = [];
 
 // benchmarking data + utility
 const initTime = Date.now();
-const benchmark = (startTime: number) => chalk.cyanBright.bold(`(${(Date.now() - startTime) / 1000} seconds)`);
+const benchmark = (startTime: number) =>
+  chalk.cyanBright.bold(`${(Date.now() - startTime) / 1000} seconds`);
 
 /**
  * These values are used to control throttling/batching the fetches:
@@ -49,7 +59,6 @@ const success = chalk.bold.green;
 // to feedListLength and know when we're finished.
 let completed = 0;
 
-
 /**
  * finishBuild
  * --
@@ -62,12 +71,17 @@ const finishBuild: () => void = async () => {
   // generate the static HTML output from our template renderer
   const output = render({
     data: contentFromAllFeeds,
-    errors: errors
+    errors: errors,
+    info: buboInfo
   });
 
   // write the output to public/index.html
   await writeFile("./public/index.html", output);
-  console.log(`Finished writing to output. ${benchmark(initTime)}`);
+  console.log(
+    `\nFinished writing to output:\n- ${feedListLength} feeds in ${benchmark(
+      initTime
+    )}\n- ${errors.length} errors`
+  );
 };
 
 /**
@@ -77,43 +91,54 @@ const finishBuild: () => void = async () => {
  * @param { group, feed, startTime}
  * @returns Promise<void>
  */
-const processFeed = (
-  {
-    group, feed, startTime
-  }: { group: string; feed: string, startTime: number }
-) => async (response: Response): Promise<void> => {
-  const body = await parseFeed(response);
-  completed++;
-  // skip to the next one if this didn't work out
-  if (!body) return;
+const processFeed =
+  ({
+    group,
+    feed,
+    startTime
+  }: {
+    group: string;
+    feed: string;
+    startTime: number;
+  }) =>
+    async (response: Response): Promise<void> => {
+      const body = await parseFeed(response);
+      completed++;
+      // skip to the next one if this didn't work out
+      if (!body) return;
 
-  try {
-    const contents: FeedItem =
-      (typeof body === "string" ? (await parser.parseString(body)) : body) as FeedItem;
+      try {
+        const contents: FeedItem = (
+          typeof body === "string" ? await parser.parseString(body) : body
+        ) as FeedItem;
 
-    contents.feed = feed;
-    contents.title = getTitle(contents);
-    contents.link = getLink(contents);
+        contents.feed = feed;
+        contents.title = getTitle(contents);
+        contents.link = getLink(contents);
 
-    // try to normalize date attribute naming
-    contents?.items?.forEach((item) => {
-      item.timestamp = getTimestamp(item);
-      item.title = getTitle(item);
-      item.link = getLink(item);
-    });
+        // try to normalize date attribute naming
+        contents?.items?.forEach(item => {
+          item.timestamp = getTimestamp(item);
+          item.title = getTitle(item);
+          item.link = getLink(item);
+        });
 
-    contentFromAllFeeds[group].push(contents as object);
-    console.log(`${success("Successfully fetched:")} ${feed} ${benchmark(startTime)}`);
+        contentFromAllFeeds[group].push(contents as object);
+        console.log(
+          `${success("Successfully fetched:")} ${feed} - ${benchmark(startTime)}`
+        );
+      } catch (err) {
+        console.log(
+          `${error("Error processing:")} ${feed} - ${benchmark(
+            startTime
+          )}\n${err}`
+        );
+        errors.push(`Error processing: ${feed}\n\t${err}`);
+      }
 
-  } catch (err) {
-    console.log(`${error("Error processing:")} ${feed} ${benchmark(startTime)}`);
-    errors.push(`Error processing: ${feed} | ${err}`);
-  }
-
-  // if this is the last feed, go ahead and build the output
-  (completed === feedListLength) && finishBuild();
-};
-
+      // if this is the last feed, go ahead and build the output
+      completed === feedListLength && finishBuild();
+    };
 
 // go through each group of feeds and process
 const processFeeds = () => {
@@ -127,17 +152,18 @@ const processFeeds = () => {
       setTimeout(() => {
         console.log(`Fetching: ${feed}...`);
 
-        fetch(feed).then(processFeed({ group, feed, startTime })).catch(err => {
-          console.log(error(`Error fetching ${feed} ${benchmark(startTime)}`));
-          errors.push(`Error fetching ${feed} ${err.toString()}`);
-        });
-
+        fetch(feed)
+          .then(processFeed({ group, feed, startTime }))
+          .catch(err => {
+            console.log(
+              error(`Error fetching ${feed} ${benchmark(startTime)}`)
+            );
+            errors.push(`Error fetching ${feed} ${err.toString()}`);
+          });
       }, (idx % (feedListLength / MAX_CONNECTIONS)) * DELAY_MS);
       idx++;
     }
-
   }
 };
-
 
 processFeeds();

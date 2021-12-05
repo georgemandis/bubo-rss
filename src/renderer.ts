@@ -1,13 +1,13 @@
 /*
-* Return our renderer.
-* Using Nunjucks out of the box.
-* https://mozilla.github.io/nunjucks/
-*/
+ * Return our renderer.
+ * Using Nunjucks out of the box.
+ * https://mozilla.github.io/nunjucks/
+ */
 
 import nunjucks from "nunjucks";
 const env: nunjucks.Environment = nunjucks.configure({ autoescape: true });
 import { readFile } from "fs/promises";
-import { Feeds } from "./@types/bubo";
+import { Feeds, JSONValue } from "./@types/bubo";
 
 /**
  * Global filters for my Nunjucks templates
@@ -17,21 +17,28 @@ env.addFilter("formatDate", function (dateString): string {
   return !isNaN(date.getTime()) ? date.toLocaleDateString() : dateString;
 });
 
-env.addGlobal("now", (new Date()).toUTCString());
+env.addGlobal("now", new Date().toUTCString());
 
 // load the template
-const template: string =
-  (await readFile(
-    new URL("../config/template.html", import.meta.url)
-  )).toString();
+const template: string = (
+  await readFile(new URL("../config/template.html", import.meta.url))
+).toString();
 
 // generate the static HTML output from our template renderer
-const render = ({ data, errors }: { data: Feeds; errors: unknown[] }) => {
+const render = ({
+  data,
+  errors,
+  info
+}: {
+  data: Feeds;
+  errors: unknown[];
+  info?: JSONValue;
+}) => {
   return env.renderString(template, {
     data,
-    errors
+    errors,
+    info
   });
 };
-
 
 export { render };
