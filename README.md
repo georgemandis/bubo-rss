@@ -50,7 +50,7 @@ The engine:
 In the main `index.ts` file you will find two values that allow yout to batch and throttle your feed requests:
 
 - `MAX_CONNECTIONS` dictates the maximium number of requests a batch can have going at once.
-- `DELAY_MS` dictates the amount of de;ay time between each batch.
+- `DELAY_MS` dictates the amount of delay time between each batch.
 
 The default configuration is **no batching or throttling** beacuse `MAX_CONNECTIONS` is set to `Infinity`. If you wanted to change Bubo to only fetch one feed at a time every second you could set these values to:
 
