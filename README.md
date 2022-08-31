@@ -27,7 +27,7 @@ Hopefully all of these changes are in services of making this project more usefu
 Changes of note:
 
 - Bubo has been rewritten in [TypeScript](https://www.typescriptlang.org/). It's pretty slick! I anticipate the typing could be improved, but it's a start.
-- You fill find an `.nvmrc` file in the root of this project. Learn more [about nvm](https://github.com/nvm-sh/nvm) if you're unfamiliar.
+- You will find an `.nvmrc` file in the root of this project. Learn more [about nvm](https://github.com/nvm-sh/nvm) if you're unfamiliar.
 - The script will actually write your `index.html` file for you (Previously the build script simply ran `node src/index.js > output/index.html`). It makes a strong assumption that this file lives in the `public` folder.
 - There is a somewhat sophisticated mechansim in-place for batching & throttling your requests, if needed.
 ## Anatomy of Bubo Reader
