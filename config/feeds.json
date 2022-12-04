@@ -1,15 +1,19 @@
 {
-  "Web Development": [
-    "https://hacks.mozilla.org/feed/",    
+  "Developer News": [
+    "https://hacks.mozilla.org/feed/",
     "https://web.dev/feed.xml",
     "https://v8.dev/blog.atom",
     "https://alistapart.com/main/feed/",
     "https://css-tricks.com/feed/",
-    "https://dev.to/feed"
+    "https://dev.to/feed",
+    "https://changelog.com/feed"
   ],
   "Blogs": [
     "https://george.mand.is/feed.xml",
     "https://joy.recurse.com/feed.atom"
+  ],
+  "Social": [
+    "https://social.mandis.dev/@georgemandis.rss"
   ],
   "My GitHub Projects": [
     "https://github.com/georgemandis.atom",
@@ -17,6 +21,6 @@
     "https://github.com/georgemandis/konami-js/releases.atom",
     "https://github.com/georgemandis/konami-js/commits/main.atom",
     "https://github.com/javascriptforartists/cheer-me-up-and-sing-me-a-song/commits/master.atom",
-    "https://github.com/georgemandis/circuit-playground-midi-multi-tool/commits/master.atom"    
+    "https://github.com/georgemandis/circuit-playground-midi-multi-tool/commits/master.atom"
   ]
 }
