@@ -1,16 +1,17 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/81dd219c-51cb-4418-a18c-42c8b104c689/deploy-status)](https://app.netlify.com/sites/bubo-rss-demo/deploys)
 
-# 🦉 Bubo Reader (2.0)
+# 🦉 Bubo Reader
 
 Bubo Reader is a hyper-minimalist <acronym title="Really Simple Syndication">RSS</acronym> and <acronym title="JavaScript Object Notation">JSON</acronym> feed reader you can deploy on your own server, [Netlify](https://netlify.com) in a few steps or [Glitch](https://glitch.com) in even fewer steps! The goal of the project is to generate a webpage that shows a list of links from a collection of feeds organized by category and website. That's it.
 
 It is named after this [silly robot owl](https://www.youtube.com/watch?v=MYSeCfo9-NI) from Clash of the Titans (1981).
 
-You can read more about how this project came about on my blog:  
+You can read more about this project on my blog:  
 - [Introducing Bubo RSS: An Absurdly Minimalist RSS Feed Reader](https://george.mand.is/2019/11/introducing-bubo-rss-an-absurdly-minimalist-rss-feed-reader/).
+- [Publishing Bubos RSS to Netlify with GitHub Actions](https://george.mand.is/2020/02/publishing-bubos-rss-to-netlify-with-github-actions/)
 
 
-## Getting Started
+## Get Started
 
 - Clone or fork the repo and run  `npm install` to install the dependencies.
 - Update `feeds.json` to include categories and links to feeds you would like to see.
@@ -18,7 +19,10 @@ You can read more about how this project came about on my blog:
 
 That's it! You should now have a static page with links to the latest content from your feeds in the `public` folder, ready to serve.
 
-## Differences in Bubo 2.0
+<details>
+<summary>
+<strong> Differences in Bubo 2.0</strong>
+</summary>
 
 Version 2.0 has introduced some substantial changes for Bubo! While the static output remains endearingly spartan, the engine that builds it has changed a bit.
 
@@ -30,7 +34,13 @@ Changes of note:
 - You will find an `.nvmrc` file in the root of this project. Learn more [about nvm](https://github.com/nvm-sh/nvm) if you're unfamiliar.
 - The script will actually write your `index.html` file for you (Previously the build script simply ran `node src/index.js > output/index.html`). It makes a strong assumption that this file lives in the `public` folder.
 - There is a somewhat sophisticated mechansim in-place for batching & throttling your requests, if needed.
-## Anatomy of Bubo Reader
+</details>
+
+
+<details>
+<summary>
+ <strong>Anatomy of Bubo Reader</strong>
+</summary>
 
 The static pieces:
 
@@ -44,8 +54,12 @@ The engine:
 - `src/index.ts` - The primary script you run when you want to build a new version of Bubo. It will automatically fetch the latest content from your feeds and build a new static file at `public/index.html`.
 - `src/renderer.ts` — The renderer that loads Nunjucks, the template and understands how to process the incoming feed data. Prefer something else? This is the place to change it!
 - `src/utilities.ts` — A variety of parsing and normalization utilities for Bubo, hidden away to try and keep things clean.
+</details>
 
-## Throttling
+<details>
+<summary>
+<strong>Throttling</strong>
+</summary>
 
 In the main `index.ts` file you will find two values that allow yout to batch and throttle your feed requests:
 
@@ -67,16 +81,12 @@ const DELAY_MS = 2500;
 ```
 
 In practice, I've never _really_ run into an issue leaving `MAX_CONNECTIONS` set to `Infinity` but this feels like a sensible safeguard to design.
-## Demos
+</details>
 
-You can view live demos here:
-
-- [https://bubo-rss-demo.netlify.com/](https://bubo-rss-demo.netlify.com/)
-- [http://bubo-rss.glitch.me/](http://bubo-rss.glitch.me/)
-
-Not the most exciting-looking demos, I'll admit, but they work!
-
-**Getting Started**
+<details>
+<summary>
+<strong>Getting Started</strong>
+</summary>
 
 - [Deploying to Glitch](#glitch)
 - [Deploying to Netlify](#netlify)
@@ -120,9 +130,20 @@ Coming soon—there is an old branch that demonstrates this, but it needs to be 
 
 If you already have a server running Linux and some command-line experience it might be simpler to setup a [cron job](https://en.wikipedia.org/wiki/Cron).
 
+</details>
+
+
+## Demos
+
+You can view live demos here:
+
+- [https://bubo-rss-demo.netlify.com/](https://bubo-rss-demo.netlify.com/)
+- [http://bubo-rss.glitch.me/](http://bubo-rss.glitch.me/)
+
+
 ## Support
 
-If you found this useful please consider sponsoring me or this project. 
+If you found this useful please consider [sponsoring me or this project](https://github.com/sponsors/georgemandis).
 
 If you'd rather run this on your own server please consider using one of these affiliate links to setup a micro instance on [Linode](https://www.linode.com/?r=8729957ab02b50a695dcea12a5ca55570979d8b9), [Digital Ocean](https://m.do.co/c/31f58d367777) or [Vultr](https://www.vultr.com/?ref=8403978).
 
@@ -130,3 +151,5 @@ If you'd rather run this on your own server please consider using one of these a
 
 Here are some websites using Bubo Reader:
 - [Kevin Fiol](https://kevinfiol.com/reader/) ([repo](https://github.com/kevinfiol/reader))
+
+Please share if you would like to be featured!
