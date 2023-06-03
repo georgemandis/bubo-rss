@@ -12,9 +12,6 @@
     "https://george.mand.is/feed.xml",
     "https://joy.recurse.com/feed.atom"
   ],
-  "Social": [
-    "https://social.mandis.dev/@georgemandis.rss"
-  ],
   "My GitHub Projects": [
     "https://github.com/georgemandis.atom",
     "https://github.com/georgemandis/bubo-rss/releases.atom",

@@ -66,7 +66,11 @@ let completed = 0;
  * and we want to build the static output.
  */
 const finishBuild: () => void = async () => {
-  console.log("\nDone fetching everything!");
+  completed++;
+  // if this isn't the last feed, just return early
+  if (completed !== feedListLength) return;
+
+  process.stdout.write("\nDone fetching everything!\n");
 
   // generate the static HTML output from our template renderer
   const output = render({
@@ -77,10 +81,10 @@ const finishBuild: () => void = async () => {
 
   // write the output to public/index.html
   await writeFile("./public/index.html", output);
-  console.log(
+  process.stdout.write(
     `\nFinished writing to output:\n- ${feedListLength} feeds in ${benchmark(
       initTime
-    )}\n- ${errors.length} errors`
+    )}\n- ${errors.length} errors\n`
   );
 };
 
@@ -103,8 +107,7 @@ const processFeed =
   }) =>
     async (response: Response): Promise<void> => {
       const body = await parseFeed(response);
-      completed++;
-      // skip to the next one if this didn't work out
+      //skip to the next one if this didn't work out
       if (!body) return;
 
       try {
@@ -124,20 +127,19 @@ const processFeed =
         });
 
         contentFromAllFeeds[group].push(contents as object);
-        console.log(
-          `${success("Successfully fetched:")} ${feed} - ${benchmark(startTime)}`
+        process.stdout.write(
+          `${success("Successfully fetched:")} ${feed} - ${benchmark(startTime)}\n`
         );
       } catch (err) {
-        console.log(
+        process.stdout.write(
           `${error("Error processing:")} ${feed} - ${benchmark(
             startTime
-          )}\n${err}`
+          )}\n${err}\n`
         );
         errors.push(`Error processing: ${feed}\n\t${err}`);
       }
 
-      // if this is the last feed, go ahead and build the output
-      completed === feedListLength && finishBuild();
+      finishBuild();
     };
 
 // go through each group of feeds and process
@@ -150,15 +152,16 @@ const processFeeds = () => {
     for (const feed of feeds) {
       const startTime = Date.now();
       setTimeout(() => {
-        console.log(`Fetching: ${feed}...`);
+        process.stdout.write(`Fetching: ${feed}...\n`);
 
         fetch(feed)
           .then(processFeed({ group, feed, startTime }))
           .catch(err => {
-            console.log(
-              error(`Error fetching ${feed} ${benchmark(startTime)}`)
+            process.stdout.write(
+              error(`Error fetching ${feed} ${benchmark(startTime)}\n`)
             );
-            errors.push(`Error fetching ${feed} ${err.toString()}`);
+            errors.push(`Error fetching ${feed} ${err.toString()}\n`);
+            finishBuild();
           });
       }, (idx % (feedListLength / MAX_CONNECTIONS)) * DELAY_MS);
       idx++;
