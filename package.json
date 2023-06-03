@@ -1,6 +1,6 @@
 {
   "name": "bubo-reader",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A simple but effective feed reader (RSS, JSON)",
   "homepage": "https://github.com/georgemandis/bubo-rss",
   "main": "src/index.js",
