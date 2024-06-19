@@ -6,11 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>📰 Carter's RSS Feeds</title>
+  <link rel="icon" href="news-emoji.svg" sizes="any" type="image/svg+xml">
   <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
 </head>
 
 <body>
-  <h1>📰 Carter's RSS Feeds</h1>
+  <h1>Carter's RSS Feeds</h1>
 
   {% for group, feeds in data %}
   <h2>{{ group }}</h2>
@@ -33,7 +35,7 @@
   {% endfor %} {% endfor %} {% if errors | length > 0 %}
   <h2>Errors</h2>
   <p>There were errors trying to parse these feeds:</p>
-  <ul>
+  <ul class="errors">
     {% for error in errors %}
     <li>{{ error }}</li>
     {% endfor %}
