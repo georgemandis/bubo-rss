@@ -1,7 +1,8 @@
 {
   "name": "Carter's RSS Feeds",
   "short_name": "Carter's RSS Feeds",
-  "start_url": "/",
+  "start_url": ".",
+  "scope": ".",
   "display": "standalone",
   "background_color": "#FCF5E4",
   "theme_color": "#FCF5E4",
