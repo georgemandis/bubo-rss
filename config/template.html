@@ -27,7 +27,7 @@
       <li class="{% if item.isRecent %}has-recent{% endif %}">
         <div><a class="article-title" href="{{ item.link }}" target="_blank" rel="noopener norefferer nofollow">{{
             item.title }}</a>
-          <div class="article-timestamp">{{ item.timestamp | formatDate }}, {{ item.timestamp | formatTime }}</div>
+          <div class="article-timestamp">{{ item.timestamp | relative }}</div>
       </li>
       {% endfor %}
     </ul>
