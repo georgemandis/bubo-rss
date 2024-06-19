@@ -8,7 +8,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "bun src/index.ts",
-    "check": "biome check --write ./src ./eslint.config.js"
+    "check": "biome check --write ./{src,config,public} ./eslint.config.js"
   },
   "author": {
     "name": "George Mandis",

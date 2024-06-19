@@ -17,6 +17,11 @@ env.addFilter("formatDate", (dateString): string => {
 	return !Number.isNaN(date.getTime()) ? date.toLocaleDateString() : dateString;
 });
 
+env.addFilter("formatTime", (dateString): string => {
+	const date: Date = new Date(Number.parseInt(dateString));
+	return !Number.isNaN(date.getTime()) ? date.toLocaleTimeString() : dateString;
+});
+
 env.addGlobal("now", new Date().toUTCString());
 
 // load the template
