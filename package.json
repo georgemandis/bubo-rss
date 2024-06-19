@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "bun src/index.js",
+    "build": "bun src/index.ts",
     "check": "biome check --write ./src ./eslint.config.js"
   },
   "author": {
