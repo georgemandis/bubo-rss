@@ -6,11 +6,9 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "dev": "tsc --watch",
+    "dev": "bun src/index.js --watch",
     "clean": "rm -rf dist",
-    "build": "tsc",
-    "bubo": "node dist/index.js",
-    "build:bubo": "tsc && node dist/index.js"
+    "build": "bun src/index.js"
   },
   "author": {
     "name": "George Mandis",
