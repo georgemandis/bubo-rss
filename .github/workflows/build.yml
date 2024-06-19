@@ -4,10 +4,9 @@
 name: Build feed
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *" # At minute 0 past every 6th hour.
 
 jobs:
   build:
@@ -20,16 +19,17 @@ jobs:
         bun-version: latest
     - run: bun install --frozen-lockfile
     - run: bun run build
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: public/
   deploy:
-    needs: build
-    permissions:
-      pages: write
-      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    needs: build
     steps:
-      - name: Deploy to Github Pages
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
