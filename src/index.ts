@@ -10,21 +10,21 @@
  * Licensed under the MIT License (http://opensource.org/licenses/MIT)
  */
 
-import fetch from "node-fetch";
-import Parser from "rss-parser";
-import type { Feeds, FeedItem } from "./@types/bubo";
-import type { Response } from "node-fetch";
-import { render } from "./renderer.js";
-import {
-	getLink,
-	getTitle,
-	getTimestamp,
-	parseFeed,
-	getFeedList,
-	getBuboInfo,
-} from "./utilities.js";
 import { writeFile } from "node:fs/promises";
 import chalk from "chalk";
+import fetch from "node-fetch";
+import type { Response } from "node-fetch";
+import Parser from "rss-parser";
+import type { FeedItem, Feeds } from "./@types/bubo";
+import { render } from "./renderer.js";
+import {
+	getBuboInfo,
+	getFeedList,
+	getLink,
+	getTimestamp,
+	getTitle,
+	parseFeed,
+} from "./utilities.js";
 
 const buboInfo = await getBuboInfo();
 const parser = new Parser();
@@ -105,42 +105,42 @@ const processFeed =
 		feed: string;
 		startTime: number;
 	}) =>
-		async (response: Response): Promise<void> => {
-			const body = await parseFeed(response);
-			//skip to the next one if this didn't work out
-			if (!body) return;
+	async (response: Response): Promise<void> => {
+		const body = await parseFeed(response);
+		//skip to the next one if this didn't work out
+		if (!body) return;
 
-			try {
-				const contents: FeedItem = (
-					typeof body === "string" ? await parser.parseString(body) : body
-				) as FeedItem;
+		try {
+			const contents: FeedItem = (
+				typeof body === "string" ? await parser.parseString(body) : body
+			) as FeedItem;
 
-				contents.feed = feed;
-				contents.title = getTitle(contents);
-				contents.link = getLink(contents);
+			contents.feed = feed;
+			contents.title = getTitle(contents);
+			contents.link = getLink(contents);
 
-				// try to normalize date attribute naming
-				for (const item of contents.items) {
-					item.timestamp = getTimestamp(item);
-					item.title = getTitle(item);
-					item.link = getLink(item);
-				}
-
-				contentFromAllFeeds[group].push(contents as object);
-				process.stdout.write(
-					`${success("Successfully fetched:")} ${feed} - ${benchmark(startTime)}\n`,
-				);
-			} catch (err) {
-				process.stdout.write(
-					`${error("Error processing:")} ${feed} - ${benchmark(
-						startTime,
-					)}\n${err}\n`,
-				);
-				errors.push(`Error processing: ${feed}\n\t${err}`);
+			// try to normalize date attribute naming
+			for (const item of contents.items) {
+				item.timestamp = getTimestamp(item);
+				item.title = getTitle(item);
+				item.link = getLink(item);
 			}
 
-			finishBuild();
-		};
+			contentFromAllFeeds[group].push(contents as object);
+			process.stdout.write(
+				`${success("Successfully fetched:")} ${feed} - ${benchmark(startTime)}\n`,
+			);
+		} catch (err) {
+			process.stdout.write(
+				`${error("Error processing:")} ${feed} - ${benchmark(
+					startTime,
+				)}\n${err}\n`,
+			);
+			errors.push(`Error processing: ${feed}\n\t${err}`);
+		}
+
+		finishBuild();
+	};
 
 // go through each group of feeds and process
 const processFeeds = () => {

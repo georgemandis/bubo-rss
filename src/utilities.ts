@@ -6,8 +6,8 @@
 	Note: these are tightly-coupled to the template and a personal preference.
 */
 
-import type { Response } from "node-fetch";
 import { readFile } from "node:fs/promises";
+import type { Response } from "node-fetch";
 import type { FeedItem, JSONValue } from "./@types/bubo";
 
 export const getLink = (obj: FeedItem): string => {
