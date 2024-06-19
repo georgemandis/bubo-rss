@@ -2,7 +2,7 @@ export interface Feeds {
 	[key: string]: object[];
 }
 export interface FeedItem {
-	[key: string]: string | number | Date | FeedItem[];
+	[key: string]: string | number | Date | boolean | FeedItem[];
 	items: FeedItem[];
 }
 

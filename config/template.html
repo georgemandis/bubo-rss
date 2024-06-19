@@ -5,12 +5,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>🦉 Bubo Reader</title>
+  <title>📰 Carter's RSS Feeds</title>
   <link rel="stylesheet" href="/style.css" />
 </head>
 
 <body>
-  <h1>🦉 Bubo Reader</h1>
+  <h1>📰 Carter's RSS Feeds</h1>
 
   {% for group, feeds in data %}
   <h2>{{ group }}</h2>
@@ -22,9 +22,10 @@
     </summary>
     <ul>
       {% for item in feed.items %}
-      <li>
-        {{ item.timestamp | formatDate }} @ {{ item.timestamp | formatTime }}—
-        <a href="{{ item.link }}" target="_blank" rel="noopener norefferer nofollow">{{ item.title }}</a>
+      <li class="{% if item.isRecent %}has-recent{% endif %}">
+        <div><a class="article-title" href="{{ item.link }}" target="_blank" rel="noopener norefferer nofollow">{{
+            item.title }}</a>
+          <div class="article-timestamp">{{ item.timestamp | formatDate }}, {{ item.timestamp | formatTime }}</div>
       </li>
       {% endfor %}
     </ul>
@@ -46,7 +47,6 @@
     Powered by
     <a href="https://github.com/georgemandis/bubo-rss">Bubo Reader (v{{ info.version }})</a>, a project by <a
       href="https://george.mand.is">George Mandis</a>. ❤️
-    <a href="{{ info.funding.url }}">Sponsor on GitHub</a>
   </p>
 </body>
 

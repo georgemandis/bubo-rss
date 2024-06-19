@@ -124,7 +124,13 @@ const processFeed =
 				item.timestamp = getTimestamp(item);
 				item.title = getTitle(item);
 				item.link = getLink(item);
+				const timestamp = new Date(Number.parseInt(item.timestamp));
+				const yesterday = new Date();
+				yesterday.setDate(yesterday.getDate() - 1);
+				item.isRecent = timestamp > yesterday;
 			}
+
+			contents.hasRecent = contents.items.some((item) => item.isRecent);
 
 			contentFromAllFeeds[group].push(contents as object);
 			process.stdout.write(
