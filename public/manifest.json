@@ -1,16 +1,18 @@
 {
-  "name": "Carter's RSS Feeds",
-  "short_name": "Carter's RSS Feeds",
-  "start_url": ".",
-  "scope": ".",
-  "display": "standalone",
-  "background_color": "#FCF5E4",
-  "theme_color": "#FCF5E4",
-  "description": "Updates from RSS feeds that Carter likes",  
-  "id": "/",
-  "icons": [{
-    "sizes": "any",
-    "src": "news-emoji.svg",
-    "type": "image/svg+xml"
-  }]
+	"name": "Carter's RSS Feeds",
+	"short_name": "Carter's RSS Feeds",
+	"start_url": ".",
+	"scope": ".",
+	"display": "standalone",
+	"background_color": "#FCF5E4",
+	"theme_color": "#FCF5E4",
+	"description": "Updates from RSS feeds that Carter likes",
+	"id": "/",
+	"icons": [
+		{
+			"sizes": "any",
+			"src": "news-emoji.svg",
+			"type": "image/svg+xml"
+		}
+	]
 }

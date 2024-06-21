@@ -7,18 +7,15 @@
 import nunjucks from "nunjucks";
 const env: nunjucks.Environment = nunjucks.configure({ autoescape: true });
 import { readFile } from "node:fs/promises";
+import { getRelativeTime } from "@feelinglovelynow/get-relative-time";
 import type { Feeds, JSONValue } from "./@types/bubo";
-import TimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
 
-TimeAgo.addDefaultLocale(en);
-const timeFormatter = new TimeAgo("en-US");
 /**
  * Global filters for my Nunjucks templates
  */
 env.addFilter("relative", (dateString): string => {
 	const date: Date = new Date(Number.parseInt(dateString));
-	return !Number.isNaN(date.getTime()) ? timeFormatter.format(date) : dateString;
+	return !Number.isNaN(date.getTime()) ? getRelativeTime(date) : dateString;
 });
 
 env.addFilter("formatTime", (dateString): string => {

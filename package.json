@@ -25,8 +25,8 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@feelinglovelynow/get-relative-time": "^1.1.2",
     "chalk": "^5.2.0",
-    "javascript-time-ago": "^2.5.10",
     "node-fetch": "^3.3.1",
     "nunjucks": "^3.2.4",
     "rss-parser": "^3.13.0"

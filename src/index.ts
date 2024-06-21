@@ -72,9 +72,20 @@ const finishBuild: () => void = async () => {
 
 	process.stdout.write("\nDone fetching everything!\n");
 
+	// sort all the categories and the feeds alphabetically
+	const sortedFeeds: Feeds = {};
+	const sortedKeys = Object.keys(contentFromAllFeeds).sort((a, b) =>
+		a.localeCompare(b),
+	);
+	for (const key of sortedKeys) {
+		sortedFeeds[key] = contentFromAllFeeds[key].sort((a, b) =>
+			a.title.localeCompare(b.title),
+		);
+	}
+
 	// generate the static HTML output from our template renderer
 	const output = render({
-		data: contentFromAllFeeds,
+		data: sortedFeeds,
 		errors: errors,
 		info: buboInfo,
 	});
@@ -105,48 +116,48 @@ const processFeed =
 		feed: string;
 		startTime: number;
 	}) =>
-	async (response: Response): Promise<void> => {
-		const body = await parseFeed(response);
-		//skip to the next one if this didn't work out
-		if (!body) return;
+		async (response: Response): Promise<void> => {
+			const body = await parseFeed(response);
+			//skip to the next one if this didn't work out
+			if (!body) return;
 
-		try {
-			const contents: FeedItem = (
-				typeof body === "string" ? await parser.parseString(body) : body
-			) as FeedItem;
+			try {
+				const contents: FeedItem = (
+					typeof body === "string" ? await parser.parseString(body) : body
+				) as FeedItem;
 
-			contents.feed = feed;
-			contents.title = getTitle(contents);
-			contents.link = getLink(contents);
+				contents.feed = feed;
+				contents.title = getTitle(contents);
+				contents.link = getLink(contents);
 
-			// try to normalize date attribute naming
-			for (const item of contents.items) {
-				item.timestamp = getTimestamp(item);
-				item.title = getTitle(item);
-				item.link = getLink(item);
-				const timestamp = new Date(Number.parseInt(item.timestamp));
-				const yesterday = new Date();
-				yesterday.setDate(yesterday.getDate() - 1);
-				item.isRecent = timestamp > yesterday;
+				// try to normalize date attribute naming
+				for (const item of contents.items) {
+					item.timestamp = getTimestamp(item);
+					item.title = getTitle(item);
+					item.link = getLink(item);
+					const timestamp = new Date(Number.parseInt(item.timestamp));
+					const eightHoursAgo = new Date();
+					eightHoursAgo.setHours(eightHoursAgo.getHours() - 8);
+					item.isRecent = timestamp > eightHoursAgo;
+				}
+
+				contents.hasRecent = contents.items.some((item) => item.isRecent);
+
+				contentFromAllFeeds[group].push(contents as object);
+				process.stdout.write(
+					`${success("Successfully fetched:")} ${feed} - ${benchmark(startTime)}\n`,
+				);
+			} catch (err) {
+				process.stdout.write(
+					`${error("Error processing:")} ${feed} - ${benchmark(
+						startTime,
+					)}\n${err}\n`,
+				);
+				errors.push(`Error processing: ${feed}\n\t${err}`);
 			}
 
-			contents.hasRecent = contents.items.some((item) => item.isRecent);
-
-			contentFromAllFeeds[group].push(contents as object);
-			process.stdout.write(
-				`${success("Successfully fetched:")} ${feed} - ${benchmark(startTime)}\n`,
-			);
-		} catch (err) {
-			process.stdout.write(
-				`${error("Error processing:")} ${feed} - ${benchmark(
-					startTime,
-				)}\n${err}\n`,
-			);
-			errors.push(`Error processing: ${feed}\n\t${err}`);
-		}
-
-		finishBuild();
-	};
+			finishBuild();
+		};
 
 // go through each group of feeds and process
 const processFeeds = () => {
