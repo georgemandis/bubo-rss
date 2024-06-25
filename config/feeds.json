@@ -6,9 +6,21 @@
 		"http://www.hrwiki.org/wiki/Special:Updates",
 		"http://rockpapercynic.tumblr.com/rss"
 	],
-	"Podcasts": [
+	"Podcasts & Videos": [
 		"https://lilyandsam.show/feed",
-		"https://technosapiens.substack.com/feed"
+		"https://www.youtube.com/feeds/videos.xml?channel_id=UC3g-w83Cb5pEAu5UmRrge-A",
+		"https://www.youtube.com/feeds/videos.xml?channel_id=UCakAg8hC_RFJm4RI3DlD7SA",
+		"https://www.youtube.com/feeds/videos.xml?channel_id=UCHZOwvEh9FAG95RO3PWhe5g",
+		"https://www.youtube.com/feeds/videos.xml?channel_id=UCvVsD2hFZRgKNH7x5Q1wwug",
+		"https://www.youtube.com/feeds/videos.xml?channel_id=UCDq5v10l4wkV5-ZBIJJFbzQ",
+		"https://www.youtube.com/feeds/videos.xml?channel_id=UCMkbjxvwur30YrFWw8kpSaw",
+		"https://www.youtube.com/feeds/videos.xml?channel_id=UCSuT9FSddzI6W5Bij9XwtmA",
+		"https://www.youtube.com/feeds/videos.xml?channel_id=UCqqJQ_cXSat0KIAVfIfKkVA",
+		"https://www.youtube.com/feeds/videos.xml?channel_id=UCuvSqzfO_LV_QzHdmEj84SQ",
+		"https://www.youtube.com/feeds/videos.xml?channel_id=UCSdma21fnJzgmPodhC9SJ3g",
+		"https://www.youtube.com/feeds/videos.xml?channel_id=UCj1VqrHhDte54oLgPG4xpuQ",
+		"https://www.youtube.com/feeds/videos.xml?channel_id=UCy0tKL1T7wFoYcxCe0xjN6Q",
+		"https://www.youtube.com/feeds/videos.xml?channel_id=UCsvn_Po0SmunchJYOWpOxMg"
 	],
 	"Friends and Family": [
 		"https://www.goodreads.com/review/list_rss/132710826?shelf=read",
@@ -50,7 +62,9 @@
 		"https://dappered.com/feed/",
 		"https://dieworkwear.com/feed/",
 		"http://fromsqualortoballer.com/rss",
-		"https://fabricateurialist.substack.com/feed"
+		"https://fabricateurialist.substack.com/feed",
+		"https://www.menswearmusings.com/feed/",
+		"https://www.permanentstyle.com/feed"
 	],
 	"Products": [
 		"https://jellyfin.org/index.xml",
