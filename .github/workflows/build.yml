@@ -11,8 +11,7 @@ on:
   schedule:
     - cron: "0 */6 * * *" # At minute 0 past every 6th hour.
 
-env:
-  YAZZY_URL: ${{ env.YAZZY_URL }}
+
 
 permissions:
   pages: write
@@ -29,6 +28,8 @@ jobs:
         bun-version: latest
     - run: bun install
     - run: bun run build
+      env:
+        YAZZY_URL: ${{ vars.YAZZY_URL }}
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
