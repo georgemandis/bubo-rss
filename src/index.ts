@@ -88,6 +88,7 @@ const finishBuild: () => void = async () => {
 		data: sortedFeeds,
 		errors: errors,
 		info: buboInfo,
+		yazzyUrl: process.env.YAZZY_URL,
 	});
 
 	// write the output to public/index.html

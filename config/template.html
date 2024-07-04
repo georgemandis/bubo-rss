@@ -122,6 +122,11 @@
             <div class="article-timestamp">
               <relative-time data-time="{{item.timestamp}}">{{ item.timestamp | relative}}</relative-time>
             </div>
+            {% if yazzyUrl %}
+            <div class="article-links">
+              <a href="{{ yazzyUrl }}/{{ item.link }}" target="_blank" rel="noreferrer noopener">yazzy</a>
+            </div>
+            {% endif %}
           </li>
           {% endfor %}
         </ul>

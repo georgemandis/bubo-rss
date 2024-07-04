@@ -69,7 +69,8 @@ details:has(li.has-recent) {
 }
 
 .article-timestamp,
-.feed-url {
+.feed-url,
+.article-links {
   font-size: 0.75em;
 }
 
