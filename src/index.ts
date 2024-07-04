@@ -88,6 +88,7 @@ const finishBuild: () => void = async () => {
 		data: sortedFeeds,
 		errors: errors,
 		info: buboInfo,
+		yazzyUrl: process.env.YAZZY_URL,
 	});
 
 	// write the output to public/index.html
@@ -116,48 +117,48 @@ const processFeed =
 		feed: string;
 		startTime: number;
 	}) =>
-		async (response: Response): Promise<void> => {
-			const body = await parseFeed(response);
-			//skip to the next one if this didn't work out
-			if (!body) return;
+	async (response: Response): Promise<void> => {
+		const body = await parseFeed(response);
+		//skip to the next one if this didn't work out
+		if (!body) return;
 
-			try {
-				const contents: FeedItem = (
-					typeof body === "string" ? await parser.parseString(body) : body
-				) as FeedItem;
+		try {
+			const contents: FeedItem = (
+				typeof body === "string" ? await parser.parseString(body) : body
+			) as FeedItem;
 
-				contents.feed = feed;
-				contents.title = getTitle(contents);
-				contents.link = getLink(contents);
+			contents.feed = feed;
+			contents.title = getTitle(contents);
+			contents.link = getLink(contents);
 
-				// try to normalize date attribute naming
-				for (const item of contents.items) {
-					item.timestamp = getTimestamp(item);
-					item.title = getTitle(item);
-					item.link = getLink(item);
-					const timestamp = new Date(Number.parseInt(item.timestamp));
-					const eightHoursAgo = new Date();
-					eightHoursAgo.setHours(eightHoursAgo.getHours() - 8);
-					item.isRecent = timestamp > eightHoursAgo;
-				}
-
-				contents.hasRecent = contents.items.some((item) => item.isRecent);
-
-				contentFromAllFeeds[group].push(contents as object);
-				process.stdout.write(
-					`${success("Successfully fetched:")} ${feed} - ${benchmark(startTime)}\n`,
-				);
-			} catch (err) {
-				process.stdout.write(
-					`${error("Error processing:")} ${feed} - ${benchmark(
-						startTime,
-					)}\n${err}\n`,
-				);
-				errors.push(`Error processing: ${feed}\n\t${err}`);
+			// try to normalize date attribute naming
+			for (const item of contents.items) {
+				item.timestamp = getTimestamp(item);
+				item.title = getTitle(item);
+				item.link = getLink(item);
+				const timestamp = new Date(Number.parseInt(item.timestamp));
+				const eightHoursAgo = new Date();
+				eightHoursAgo.setHours(eightHoursAgo.getHours() - 8);
+				item.isRecent = timestamp > eightHoursAgo;
 			}
 
-			finishBuild();
-		};
+			contents.hasRecent = contents.items.some((item) => item.isRecent);
+
+			contentFromAllFeeds[group].push(contents as object);
+			process.stdout.write(
+				`${success("Successfully fetched:")} ${feed} - ${benchmark(startTime)}\n`,
+			);
+		} catch (err) {
+			process.stdout.write(
+				`${error("Error processing:")} ${feed} - ${benchmark(
+					startTime,
+				)}\n${err}\n`,
+			);
+			errors.push(`Error processing: ${feed}\n\t${err}`);
+		}
+
+		finishBuild();
+	};
 
 // go through each group of feeds and process
 const processFeeds = () => {

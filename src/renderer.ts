@@ -10,6 +10,8 @@ import { readFile } from "node:fs/promises";
 import { getRelativeTime } from "@feelinglovelynow/get-relative-time";
 import type { Feeds, JSONValue } from "./@types/bubo";
 
+const yazzyUrl = process.env.YAZZY_URL;
+
 /**
  * Global filters for my Nunjucks templates
  */
@@ -23,7 +25,7 @@ env.addFilter("formatTime", (dateString): string => {
 	return !Number.isNaN(date.getTime()) ? date.toLocaleTimeString() : dateString;
 });
 
-env.addGlobal("now", new Date().toUTCString());
+env.addGlobal("now", new Date().getTime());
 
 // load the template
 const template: string = (
@@ -35,15 +37,18 @@ const render = ({
 	data,
 	errors,
 	info,
+	yazzyUrl,
 }: {
 	data: Feeds;
 	errors: unknown[];
 	info?: JSONValue;
+	yazzyUrl?: string;
 }) => {
 	return env.renderString(template, {
 		data,
 		errors,
 		info,
+		yazzyUrl,
 	});
 };
 

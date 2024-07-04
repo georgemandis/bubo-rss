@@ -1,46 +1,44 @@
 {
-  "name": "bubo-reader",
-  "version": "2.0.2",
-  "description": "A simple but effective feed reader (RSS, JSON)",
-  "homepage": "https://github.com/georgemandis/bubo-rss",
-  "main": "src/index.ts",
-  "type": "module",
-  "scripts": {
-    "clean": "rm -rf dist",
-    "build": "bun src/index.ts",
-    "check": "biome check --write ./{src,config,public} ./eslint.config.js"
-  },
-  "author": {
-    "name": "George Mandis",
-    "email": "george@mand.is",
-    "url": "https://george.mand.is"
-  },
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/georgemandis"
-  },
-  "bugs": {
-    "url": "https://github.com/georgemandis/bubo-rss/issues",
-    "email": "george+bubo@mand.is"
-  },
-  "license": "MIT",
-  "dependencies": {
-    "@feelinglovelynow/get-relative-time": "^1.1.2",
-    "chalk": "^5.2.0",
-    "node-fetch": "^3.3.1",
-    "nunjucks": "^3.2.4",
-    "rss-parser": "^3.13.0"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^1.8.1",
-    "@types/bun": "latest",
-    "@types/nunjucks": "^3.2.2",
-    "@types/xml2js": "^0.4.11",
-    "tslib": "^2.5.3",
-    "typescript": "^5.1.3",
-    "typescript-eslint": "^7.13.1"
-  },
-  "trustedDependencies": [
-    "@biomejs/biome"
-  ]
+	"name": "bubo-reader",
+	"version": "2.0.2",
+	"description": "A simple but effective feed reader (RSS, JSON)",
+	"homepage": "https://github.com/georgemandis/bubo-rss",
+	"main": "src/index.ts",
+	"type": "module",
+	"scripts": {
+		"clean": "rm -rf dist",
+		"build": "bun src/index.ts",
+		"check": "biome check --write ./{src,config,public} ./*.json --no-errors-on-unmatched"
+	},
+	"author": {
+		"name": "George Mandis",
+		"email": "george@mand.is",
+		"url": "https://george.mand.is"
+	},
+	"funding": {
+		"type": "github",
+		"url": "https://github.com/sponsors/georgemandis"
+	},
+	"bugs": {
+		"url": "https://github.com/georgemandis/bubo-rss/issues",
+		"email": "george+bubo@mand.is"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"@feelinglovelynow/get-relative-time": "^1.1.2",
+		"chalk": "^5.2.0",
+		"node-fetch": "^3.3.1",
+		"nunjucks": "^3.2.4",
+		"rss-parser": "^3.13.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.8.1",
+		"@types/bun": "latest",
+		"@types/nunjucks": "^3.2.2",
+		"@types/xml2js": "^0.4.11",
+		"tslib": "^2.5.3",
+		"typescript": "^5.1.3",
+		"typescript-eslint": "^7.13.1"
+	},
+	"trustedDependencies": ["@biomejs/biome"]
 }
