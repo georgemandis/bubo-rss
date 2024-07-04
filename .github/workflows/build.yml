@@ -11,6 +11,9 @@ on:
   schedule:
     - cron: "0 */6 * * *" # At minute 0 past every 6th hour.
 
+env:
+  YAZZY_URL: ${{ env.YAZZY_URL }}
+
 permissions:
   pages: write
   id-token: write

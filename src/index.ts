@@ -83,12 +83,14 @@ const finishBuild: () => void = async () => {
 		);
 	}
 
+	const yazzyUrl = process.env.YAZZY_URL;
+	process.stdout.write(`\nUsing yazzy url: "${yazzyUrl}"\n`);
 	// generate the static HTML output from our template renderer
 	const output = render({
 		data: sortedFeeds,
 		errors: errors,
 		info: buboInfo,
-		yazzyUrl: process.env.YAZZY_URL,
+		yazzyUrl
 	});
 
 	// write the output to public/index.html
