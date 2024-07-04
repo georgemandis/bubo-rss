@@ -141,7 +141,7 @@
   {% endif %}
   <footer>
     <hr>
-    <p>Last updated {{ now }}.</p>
+    <p>Last updated <relative-time data-time="{{ now }}">{{ now | relative}}</relative-time>.</p>
     <p>
       <a href="https://github.com/carterworks/rss-reader">View on GitHub</a>
     </p>

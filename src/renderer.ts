@@ -23,7 +23,7 @@ env.addFilter("formatTime", (dateString): string => {
 	return !Number.isNaN(date.getTime()) ? date.toLocaleTimeString() : dateString;
 });
 
-env.addGlobal("now", new Date().toUTCString());
+env.addGlobal("now", new Date().getTime());
 
 // load the template
 const template: string = (
