@@ -24,9 +24,8 @@
 	],
 	"Friends and Family": [
 		"https://www.goodreads.com/review/list_rss/132710826?shelf=read",
-		"https://jgm23333.wixsite.com/my-site/blog-feed.xml",
 		"https://joekhoury.blog/feed/",
-		"https://social.warnick.me/users/sam.rss"
+		"https://mastodon.social/users/sam.rss"
 	],
 	"Games": [
 		"https://www.nomanssky.com/news/feed/",
@@ -76,7 +75,6 @@
 	],
 	"Humor": [
 		"https://kill-the-newsletter.com/feeds/d90ng280lhh3p2nq.xml",
-		"http://www.altuniversebyu.com/feed/",
 		"https://aiweirdness.com/rss",
 		"http://mcmansionhell.tumblr.com/rss"
 	],
