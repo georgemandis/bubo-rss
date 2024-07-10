@@ -90,7 +90,8 @@
 		"http://chriscoyier.net/feed/",
 		"https://jenniferdaniel.substack.com/feed/",
 		"http://www.gamingonlinux.com/article_rss.php",
-		"http://www.theverge.com/rss/full.xml"
+		"http://www.theverge.com/rss/full.xml",
+		"https://hnrss.org/frontpage?points=70"
 	],
 	"Emulation": [
 		"http://melonds.kuribo64.net/rss.php",
