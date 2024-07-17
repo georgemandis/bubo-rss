@@ -104,10 +104,10 @@
   </header>
   <main class="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] mt-2">
     {% for group, feeds in data %}
-    <section class="">
+    <section>
       <h2 class="text-xl">{{ group }}</h2>
       {% for feed in feeds %}
-      <details class="group">
+      <details class="group max-h-64">
         <summary class="cursor-pointer p-2 rounded-xl mt-1 transition-colors group-has-[.has-recent]:border-2 group-has-[.has-recent]:border-arc-title hover:bg-arc-hover flex flex-row items-center">
           {% if feed.hasRecent %}
           <div class="text-xl mr-2" aria-label="Feed has recent items">✳︎</div>
@@ -117,7 +117,7 @@
             <div class="text-sm whitespace-nowrap text-ellipsis w-11/12 overflow-hidden text-arc-subtitle" title="{{feed.feed}}">({{ feed.feed }})</div>
           </div>
         </summary>
-        <ul class="max-h-64 overflow-y-auto list-none ml-6">
+        <ul class=" overflow-y-auto list-none ml-6">
           {% for item in feed.items %}
           <li class="{% if item.isRecent %}has-recent {% endif %} flex flex-row items-center p-2 rounded-xl mt-1 transition-colors hover:bg-arc-hover">
             {% if item.isRecent %}
@@ -146,16 +146,18 @@
     {% endfor %}
   </main>
   {% if errors | length > 0 %}
-  <h2 class="text-xl">Errors</h2>
-  <p>There were errors trying to parse these feeds:</p>
-  <ul class="errors">
-    {% for error in errors %}
-    <li class="break-all">{{ error }}</li>
-    {% endfor %}
-  </ul>
+  <section class="mt-4">
+    <h2 class="text-xl">Errors</h2>
+    <p>There were errors trying to parse these feeds:</p>
+    <ul class="errors">
+      {% for error in errors %}
+      <li class="break-all">{{ error }}</li>
+      {% endfor %}
+    </ul>
+  </section>
   {% endif %}
   <footer>
-    <hr>
+    <hr class="my-4">
     <p>Last updated <relative-time data-time="{{ now }}">{{ now | formatDateTime}}</relative-time>.</p>
     <p>
       <a href="https://github.com/carterworks/rss-reader">View on GitHub</a>
