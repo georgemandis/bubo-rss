@@ -1,3 +1,4 @@
+import { $ } from "bun";
 /*
 	There's a little inconsistency with how feeds report certain things like
 	title, links and timestamps. These helpers try to normalize that bit and
@@ -75,11 +76,18 @@ export async function parseFeed(response: Response): Promise<JSONValue> {
 	return (rssFeed && rssFeed) || (jsonFeed && jsonFeed) || {};
 }
 
-export const getFeedList = async (): Promise<JSONValue> => {
+export const getFeedList = async ({
+	feedFilePath,
+	feeds,
+}: { feedFilePath?: string; feeds?: string }): Promise<JSONValue> => {
+	if (feeds) {
+		return JSON.parse(feeds);
+	}
+	if (!feedFilePath) {
+		throw new Error("No feed list provided");
+	}
 	return JSON.parse(
-		(
-			await readFile(new URL("../config/feeds.json", import.meta.url))
-		).toString(),
+		(await readFile(new URL(feedFilePath, import.meta.url))).toString(),
 	);
 };
 
@@ -87,4 +95,19 @@ export const getBuboInfo = async (): Promise<JSONValue> => {
 	return JSON.parse(
 		(await readFile(new URL("../package.json", import.meta.url))).toString(),
 	);
+};
+
+export const buildCSS = async (
+	minify: boolean,
+	input: string,
+	destination: string,
+): Promise<void> => {
+	const output =
+		await $`bun x tailwindcss -i ${input} ${minify ? "--minify" : ""} -o ${destination}`;
+	if (output.exitCode !== 0) {
+		const err = new TextDecoder().decode(output.stderr);
+		throw new Error(`Building tailwind failed: ${err}`);
+	}
+	console.log(`Successfully built CSS to ${destination}`);
+	return;
 };

@@ -18,6 +18,7 @@ import Parser from "rss-parser";
 import type { FeedItem, Feeds } from "./@types/bubo";
 import { render } from "./renderer.js";
 import {
+	buildCSS,
 	getBuboInfo,
 	getFeedList,
 	getLink,
@@ -26,9 +27,21 @@ import {
 	parseFeed,
 } from "./utilities.js";
 
+const cssInput = "./public/styles.input.css";
+const cssOutput = "./public/styles.css";
+const minifyCss = process.env.NODE_ENV === "production";
+await buildCSS(minifyCss, cssInput, cssOutput);
+
 const buboInfo = await getBuboInfo();
 const parser = new Parser();
-const feedList = await getFeedList();
+const feedOptions: Parameters<typeof getFeedList>[0] = {
+	feeds: process.env.FEEDS,
+	feedFilePath: process.env.FEEDS
+		? ""
+		: process.env.FEED_FILE ?? "../config/feeds.json",
+};
+console.log("feedOptions", JSON.stringify(feedOptions, null, 2));
+const feedList = await getFeedList(feedOptions);
 const feedListLength =
 	Object.entries(feedList).flat(2).length - Object.keys(feedList).length;
 
@@ -90,7 +103,7 @@ const finishBuild: () => void = async () => {
 		data: sortedFeeds,
 		errors: errors,
 		info: buboInfo,
-		yazzyUrl
+		yazzyUrl,
 	});
 
 	// write the output to public/index.html
@@ -140,7 +153,7 @@ const processFeed =
 				item.link = getLink(item);
 				const timestamp = new Date(Number.parseInt(item.timestamp));
 				const eightHoursAgo = new Date();
-				eightHoursAgo.setHours(eightHoursAgo.getHours() - 8);
+				eightHoursAgo.setHours(eightHoursAgo.getHours() - 24);
 				item.isRecent = timestamp > eightHoursAgo;
 			}
 

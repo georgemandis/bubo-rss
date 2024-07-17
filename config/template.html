@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>Carter's RSS Feeds</title>
   <link rel="icon" href="news-emoji.svg" sizes="any" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="styles.css" />
   <link rel="manifest" href="manifest.json" />
   <script type="module" defer>
     /**
@@ -98,35 +98,45 @@
   </script>
 </head>
 
-<body>
-  <header>
+<body class="font-system bg-arc-background text-base m-4">
+  <header class="text-2xl text-arc-title">
     <h1>📰 Carter's RSS Feeds</h1>
   </header>
-  <main>
+  <main class="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] mt-2">
     {% for group, feeds in data %}
-    <section>
-      <h2>{{ group }}</h2>
+    <section class="">
+      <h2 class="text-xl">{{ group }}</h2>
       {% for feed in feeds %}
-      <details>
-        <summary>
-          <span class="feed-title">{{ feed.title }}</span>
-          <span class="feed-url" title="{{feed.feed}}">({{ feed.feed }})</span>
+      <details class="group">
+        <summary class="cursor-pointer p-2 rounded-xl mt-1 transition-colors group-has-[.has-recent]:border-2 group-has-[.has-recent]:border-arc-title hover:bg-arc-hover flex flex-row items-center">
+          {% if feed.hasRecent %}
+          <div class="text-xl mr-2" aria-label="Feed has recent items">✳︎</div>
+          {% endif %}
+          <div class="w-full">
+            <div>{{ feed.title }}</div>
+            <div class="text-sm whitespace-nowrap text-ellipsis w-11/12 overflow-hidden text-arc-subtitle" title="{{feed.feed}}">({{ feed.feed }})</div>
+          </div>
         </summary>
-        <ul>
+        <ul class="max-h-64 overflow-y-auto list-none m-0">
           {% for item in feed.items %}
-          <li class="{% if item.isRecent %}has-recent{% endif %}">
-            <div>
-              <a class="article-title" href="{{ item.link }}" target="_blank" rel="noopener norefferer nofollow">{{
-                item.title | safe}}</a>
-            </div>
-            <div class="article-timestamp">
-              <relative-time data-time="{{item.timestamp}}">{{ item.timestamp | relative}}</relative-time>
-            </div>
-            {% if yazzyUrl %}
-            <div class="article-links">
-              <a href="{{ yazzyUrl }}/{{ item.link }}" target="_blank" rel="noreferrer noopener">yazzy</a>
-            </div>
+          <li class="{% if item.isRecent %}has-recent {% endif %} flex flex-row items-center p-2 rounded-xl mt-1 transition-colors hover:bg-arc-hover">
+            {% if item.isRecent %}
+            <div class="text-xl mr-2" aria-label="Item is recent">✳︎</div>
             {% endif %}
+            <div>
+              <div>
+                <a class="no-underline hover:text-inherit" href="{{ item.link }}" target="_blank" rel="noopener norefferer nofollow">{{
+                  item.title | safe}}</a>
+              </div>
+              <div class="text-sm text-arc-subtitle">
+                <relative-time data-time="{{item.timestamp}}">{{ item.timestamp | formatDateTime}}</relative-time>
+              </div>
+              {% if yazzyUrl %}
+              <div class="text-sm text-arc-subtitle">
+                <a href="{{ yazzyUrl }}/{{ item.link }}"  target="_blank" rel="noreferrer noopener">yazzy</a>
+              </div>
+              {% endif %}
+            </div>
           </li>
           {% endfor %}
         </ul>
@@ -136,17 +146,17 @@
     {% endfor %}
   </main>
   {% if errors | length > 0 %}
-  <h2>Errors</h2>
+  <h2 class="text-xl">Errors</h2>
   <p>There were errors trying to parse these feeds:</p>
   <ul class="errors">
     {% for error in errors %}
-    <li>{{ error }}</li>
+    <li class="break-all">{{ error }}</li>
     {% endfor %}
   </ul>
   {% endif %}
   <footer>
     <hr>
-    <p>Last updated <relative-time data-time="{{ now }}">{{ now | relative}}</relative-time>.</p>
+    <p>Last updated <relative-time data-time="{{ now }}">{{ now | formatDateTime}}</relative-time>.</p>
     <p>
       <a href="https://github.com/carterworks/rss-reader">View on GitHub</a>
     </p>
