@@ -104,10 +104,10 @@
   </header>
   <main class="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] mt-2">
     {% for group, feeds in data %}
-    <section>
+    <section class="overflo-y-auto max-h-96">
       <h2 class="text-xl">{{ group }}</h2>
       {% for feed in feeds %}
-      <details class="group max-h-64">
+      <details class="group">
         <summary class="cursor-pointer p-2 rounded-xl mt-1 transition-colors group-has-[.has-recent]:border-2 group-has-[.has-recent]:border-arc-title hover:bg-arc-hover flex flex-row items-center">
           {% if feed.hasRecent %}
           <div class="text-xl mr-2" aria-label="Feed has recent items">✳︎</div>
