@@ -117,7 +117,7 @@
             <div class="text-sm whitespace-nowrap text-ellipsis w-11/12 overflow-hidden text-arc-subtitle" title="{{feed.feed}}">({{ feed.feed }})</div>
           </div>
         </summary>
-        <ul class="max-h-64 overflow-y-auto list-none m-0">
+        <ul class="max-h-64 overflow-y-auto list-none ml-6">
           {% for item in feed.items %}
           <li class="{% if item.isRecent %}has-recent {% endif %} flex flex-row items-center p-2 rounded-xl mt-1 transition-colors hover:bg-arc-hover">
             {% if item.isRecent %}
