@@ -30,6 +30,7 @@ jobs:
     - run: bun run build
       env:
         YAZZY_URL: ${{ vars.YAZZY_URL }}
+        FEEDS: ${{ vars.FEEDS }}
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
