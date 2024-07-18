@@ -104,44 +104,50 @@
   </header>
   <main class="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] mt-2">
     {% for group, feeds in data %}
-    <section class="overflo-y-auto max-h-96">
+    <section>
       <h2 class="text-xl">{{ group }}</h2>
-      {% for feed in feeds %}
-      <details class="group">
-        <summary class="cursor-pointer p-2 rounded-xl mt-1 transition-colors group-has-[.has-recent]:border-2 group-has-[.has-recent]:border-arc-title hover:bg-arc-hover flex flex-row items-center">
-          {% if feed.hasRecent %}
-          <div class="text-xl mr-2" aria-label="Feed has recent items">✳︎</div>
-          {% endif %}
-          <div class="w-full">
-            <div>{{ feed.title }}</div>
-            <div class="text-sm whitespace-nowrap text-ellipsis w-11/12 overflow-hidden text-arc-subtitle" title="{{feed.feed}}">({{ feed.feed }})</div>
-          </div>
-        </summary>
-        <ul class=" overflow-y-auto list-none ml-6">
-          {% for item in feed.items %}
-          <li class="{% if item.isRecent %}has-recent {% endif %} flex flex-row items-center p-2 rounded-xl mt-1 transition-colors hover:bg-arc-hover">
-            {% if item.isRecent %}
-            <div class="text-xl mr-2" aria-label="Item is recent">✳︎</div>
+      <div class="overflow-y-auto max-h-96">
+        {% for feed in feeds %}
+        <details class="group">
+          <summary
+            class="cursor-pointer p-2 rounded-xl mt-1 transition-colors group-has-[.has-recent]:border-2 group-has-[.has-recent]:border-arc-title hover:bg-arc-hover flex flex-row items-center">
+            {% if feed.hasRecent %}
+            <div class="text-xl mr-2" aria-label="Feed has recent items">✳︎</div>
             {% endif %}
-            <div>
-              <div>
-                <a class="no-underline hover:text-inherit" href="{{ item.link }}" target="_blank" rel="noopener norefferer nofollow">{{
-                  item.title | safe}}</a>
-              </div>
-              <div class="text-sm text-arc-subtitle">
-                <relative-time data-time="{{item.timestamp}}">{{ item.timestamp | formatDateTime}}</relative-time>
-              </div>
-              {% if yazzyUrl %}
-              <div class="text-sm text-arc-subtitle">
-                <a href="{{ yazzyUrl }}/{{ item.link }}"  target="_blank" rel="noreferrer noopener">yazzy</a>
-              </div>
-              {% endif %}
+            <div class="w-full">
+              <div>{{ feed.title }}</div>
+              <div class="text-sm whitespace-nowrap text-ellipsis w-11/12 overflow-hidden text-arc-subtitle"
+                title="{{feed.feed}}">({{ feed.feed }})</div>
             </div>
-          </li>
-          {% endfor %}
-        </ul>
-      </details>
-      {% endfor %}
+          </summary>
+          <ul class=" overflow-y-auto list-none ml-6">
+            {% for item in feed.items %}
+            <li
+              class="{% if item.isRecent %}has-recent {% endif %} flex flex-row items-center p-2 rounded-xl mt-1 transition-colors hover:bg-arc-hover">
+              {% if item.isRecent %}
+              <div class="text-xl mr-2" aria-label="Item is recent">✳︎</div>
+              {% endif %}
+              <div>
+                <div>
+                  <a class="no-underline hover:text-inherit" href="{{ item.link }}" target="_blank"
+                    rel="noopener norefferer nofollow">{{
+                    item.title | safe}}</a>
+                </div>
+                <div class="text-sm text-arc-subtitle">
+                  <relative-time data-time="{{item.timestamp}}">{{ item.timestamp | formatDateTime}}</relative-time>
+                </div>
+                {% if yazzyUrl %}
+                <div class="text-sm text-arc-subtitle">
+                  <a href="{{ yazzyUrl }}/{{ item.link }}" target="_blank" rel="noreferrer noopener">yazzy</a>
+                </div>
+                {% endif %}
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </details>
+        {% endfor %}
+      </div>
     </section>
     {% endfor %}
   </main>
