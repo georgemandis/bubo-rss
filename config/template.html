@@ -98,8 +98,8 @@
   </script>
 </head>
 
-<body class="font-system bg-arc-background text-base m-4">
-  <header class="text-2xl text-arc-title">
+<body class="font-system text-base m-4">
+  <header class="text-2xl">
     <h1>📰 Carter's RSS Feeds</h1>
   </header>
   <main class="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] mt-2">
@@ -110,20 +110,20 @@
         {% for feed in feeds %}
         <details class="group">
           <summary
-            class="cursor-pointer p-2 rounded-xl mt-1 transition-colors group-has-[.has-recent]:border-2 group-has-[.has-recent]:border-arc-title hover:bg-arc-hover flex flex-row items-center">
+            class="cursor-pointer p-2 rounded-xl mt-1 transition-colors group-has-[.has-recent]:border-2 flex flex-row items-center">
             {% if feed.hasRecent %}
             <div class="text-xl mr-2" aria-label="Feed has recent items">✳︎</div>
             {% endif %}
             <div class="w-full">
               <div>{{ feed.title }}</div>
-              <div class="text-sm whitespace-nowrap text-ellipsis w-11/12 overflow-hidden"
-                title="{{feed.feed}}">({{ feed.feed }})</div>
+              <div class="text-sm whitespace-nowrap text-ellipsis w-11/12 overflow-hidden" title="{{feed.feed}}">({{
+                feed.feed }})</div>
             </div>
           </summary>
           <ul class=" overflow-y-auto list-none ml-6">
             {% for item in feed.items %}
             <li
-              class="{% if item.isRecent %}has-recent {% endif %} flex flex-row items-center p-2 rounded-xl mt-1 transition-colors hover:bg-arc-hover">
+              class="{% if item.isRecent %}has-recent {% endif %} flex flex-row items-center p-2 rounded-xl mt-1 transition-colors">
               {% if item.isRecent %}
               <div class="text-xl mr-2" aria-label="Item is recent">✳︎</div>
               {% endif %}

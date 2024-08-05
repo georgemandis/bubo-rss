@@ -209,41 +209,15 @@ export default {
 					"'Noto Color Emoji'",
 				],
 			},
-			colors: {
-				/*
-				 * The Arc browser (can) expose its theme color to the pages beneath as
-				 * CSS custom properties.
-				 */
-				arc: {
-					"background-simple": "var(--arc-background-simple-color,  #FDF8EBFF)",
-					maxContrast: "var(--arc-palette-maxContrastColor,  #6F540AFF)",
-					minContrast: "var(--arc-palette-minContrastColor,  #FDF8EBFF)",
-					hover: "var(--arc-palette-hover,  #E2DDCAFF)",
-					foregroundPrimary: "var(--arc-palette-foregroundPrimary,  #EBB218FF)",
-					foregroundSecondary:
-						"var(--arc-palette-foregroundSecondary,  #EBB218FF)",
-					foregroundTertiary:
-						"var(--arc-palette-foregroundTertiary,  #FDF8EBFF)",
-					title: "var(--arc-palette-title,  #211900FF)",
-					subtitle: "var(--arc-palette-subtitle,  #C5BB96FF)",
-					background: "var(--arc-palette-background,  #F1EEE5FF)",
-					backgroundExtra: "var(--arc-palette-backgroundExtra,  #FEFDFCFF)",
-					cutout: "var(--arc-palette-cutoutColor,  #FDF8EBFF)",
-					focus: "var(--arc-palette-focus,  #B7A97CFF)",
-				},
-			},
 		},
 	},
 	plugins: [
-		plugin(({ addBase, theme }) => {
+		plugin(({ addBase }) => {
 			addBase({
 				a: {
 					textDecoration: "underline",
 					transition: "color 0.2s",
 					cursor: "pointer",
-					"&:hover": {
-						color: theme("colors.arc.subtitle"),
-					},
 				},
 			});
 		}),
