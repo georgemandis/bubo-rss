@@ -159,7 +159,16 @@ export default async function getAllFeedItems(): Promise<{
 					feeds.map((feedUrl) => ({ category, feedUrl })),
 				)
 				.flatMap(({ category, feedUrl }) => {
-					return parseFeedContents(feedUrl, category);
+					return parseFeedContents(feedUrl, category).catch((err) => {
+						let toThrow: Error;
+						if (err instanceof Error) {
+							err.message = `Error fetching ${feedUrl}: ${err.message}`;
+							toThrow = err;
+						} else {
+							toThrow = new Error(`Error fetching ${feedUrl}: ${err}`);
+						}
+						return Promise.reject(toThrow);
+					});
 				}),
 		)
 	).reduce(
