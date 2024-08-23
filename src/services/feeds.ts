@@ -141,7 +141,7 @@ async function parseFeedContents(
 		}));
 		return items;
 	} catch (err) {
-		console.error(`Error processing: ${feedUrl}\n${err}`);
+		console.error(`${feedUrl}\n${err}`);
 		throw err;
 	}
 }
@@ -162,10 +162,10 @@ export default async function getAllFeedItems(): Promise<{
 					return parseFeedContents(feedUrl, category).catch((err) => {
 						let toThrow: Error;
 						if (err instanceof Error) {
-							err.message = `Error fetching ${feedUrl}: ${err.message}`;
+							err.message = `${feedUrl}: ${err.message}`;
 							toThrow = err;
 						} else {
-							toThrow = new Error(`Error fetching ${feedUrl}: ${err}`);
+							toThrow = new Error(`${feedUrl}: ${err}`);
 						}
 						return Promise.reject(toThrow);
 					});
