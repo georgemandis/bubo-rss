@@ -89,11 +89,15 @@ const accentColors = {
 	},
 };
 
-const pickRandomAccentColor = () => {
+function makeCssClassName(str: string): string {
+	return str.toLowerCase().replace(/[^a-z0-9]/g, "-");
+}
+
+function pickRandomAccentColor() {
 	const accentColorsKeys = Object.keys(accentColors);
 	const index = Math.floor(Math.random() * accentColorsKeys.length);
 	return accentColors[accentColorsKeys[index]];
-};
+}
 
 const categoryColors = categories.reduce((acc, category) => {
 	acc[category] = pickRandomAccentColor();
@@ -104,11 +108,11 @@ const categoriesSelectorCss = categories
 	.filter((c) => c !== STATIC_CATEGORIES.All)
 	.map(
 		(c) => `
-#category-picker:has(#${c}:checked) ~ main ul {
-	> .${c}-item {
+#category-picker:has(#${makeCssClassName(c)}:checked) ~ main ul {
+	> .${makeCssClassName(c)}-item {
 		display: block;
 	}
-	> *:not(.${c}-item) {
+	> *:not(.${makeCssClassName(c)}-item) {
 		display: none;
 	}
 }`,
@@ -165,14 +169,14 @@ const categoriesSelectorCss = categories
 					<div>
 						<input
 							type="radio"
-							id={category}
+							id={makeCssClassName(category)}
 							name="category"
 							class="hidden peer"
 							checked={category === STATIC_CATEGORIES.Recent}
 						/>
 						<label
 							class="cursor-pointer transition-all opacity-25 peer-checked:opacity-100 hover:opacity-100 flex flex-row gap-2 items-center"
-							for={category}
+							for={makeCssClassName(category)}
 						>
 							<div
 								class:list={[
@@ -193,7 +197,7 @@ const categoriesSelectorCss = categories
 					feedItems.contents.map((item) => (
 						<li
 							class:list={[
-								`${item.category}-item`,
+								`${makeCssClassName(item.category)}-item`,
 								{
 									[`${STATIC_CATEGORIES.Recent}-item`]: isRecent(
 										item.pubIsoDate,
