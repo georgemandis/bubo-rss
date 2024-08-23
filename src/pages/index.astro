@@ -209,7 +209,7 @@ const categoriesSelectorCss = categories
 								href={item.link}
 								rel="noopener noreferrer"
 								target="_blank"
-								set:html={item.title}
+								set:html={item.title ?? item.link}
 								class="underline block"
 							/>
 							<div class="no-underline text-sm font-normal">
