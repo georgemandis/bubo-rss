@@ -11,9 +11,24 @@ const feedItems = await getAllFeedItems();
 const recentCount = feedItems.contents.filter((item) =>
 	isRecent(item.pubIsoDate),
 ).length;
-const categories = Array.from(
-	new Set(feedItems.contents.map((item) => item.category)),
-).sort();
+const categories = [
+	"All",
+	"Recent",
+	...Array.from(
+		new Set(feedItems.contents.map((item) => item.category)),
+	).sort(),
+];
+
+const categoryCounts = categories.reduce((acc, category) => {
+	if (category === "All") {
+		acc[category] = feedItems.contents.length;
+		return acc;
+	}
+	acc[category] = feedItems.contents.filter(
+		(item) => item.category === category,
+	).length;
+	return acc;
+}, {});
 
 const accentColors = {
 	slate: {
@@ -71,14 +86,12 @@ const pickRandomAccentColor = () => {
 	const index = Math.floor(Math.random() * accentColorsKeys.length);
 	return accentColors[accentColorsKeys[index]];
 };
-const categoryColors = ["All", "Recent", ...categories].reduce(
-	(acc, category) => {
-		acc[category] = pickRandomAccentColor();
-		return acc;
-	},
-	{},
-);
-const categoriesSelectorCss = ["Recent", ...categories]
+const categoryColors = categories.reduce((acc, category) => {
+	acc[category] = pickRandomAccentColor();
+	return acc;
+}, {});
+const categoriesSelectorCss = categories
+	.filter((c) => c !== "All")
 	.map(
 		(c) => `
 #category-picker:has(#${c}:checked) ~ main ul {
@@ -123,7 +136,7 @@ const categoriesSelectorCss = ["Recent", ...categories]
 			class="flex flex-row mb-2 md:flex-col gap-2 md:gap-1 col-span-2 md:sticky md:top-4 row-span-1"
 		>
 			{
-				["All", "Recent", ...categories.sort()].map((category) => (
+				categories.map((category) => (
 					<div>
 						<input
 							type="radio"
@@ -133,7 +146,7 @@ const categoriesSelectorCss = ["Recent", ...categories]
 							checked={category === "All"}
 						/>
 						<label
-							class="cursor-pointer transition-all peer-checked:underline opacity-25 peer-checked:opacity-100 hover:opacity-100 flex flex-row gap-2 items-center"
+							class="cursor-pointer transition-all pr-4 opacity-25 peer-checked:opacity-100 hover:opacity-100 flex flex-row gap-2 items-center"
 							for={category}
 						>
 							<div
@@ -142,7 +155,8 @@ const categoriesSelectorCss = ["Recent", ...categories]
 									categoryColors[category].bg,
 								]}
 							/>
-							<span>{category}</span>
+							<span class="peer-checked:underline">{category}</span>
+							<span class="ml-auto">{categoryCounts[category]}</span>
 						</label>
 					</div>
 				))
