@@ -1,11 +1,20 @@
 ---
 import getAllFeedItems from "../services/feeds";
 
+function isRecent(date: number): boolean {
+	const now = Date.now();
+	const sixHours = 6 * 60 * 60 * 1000;
+	return now - date < sixHours;
+}
+
 const feedItems = await getAllFeedItems();
+const recentCount = feedItems.contents.filter((item) =>
+	isRecent(item.pubIsoDate),
+).length;
 const categories = Array.from(
 	new Set(feedItems.contents.map((item) => item.category)),
 ).sort();
-const categoriesSelectorCss = categories
+const categoriesSelectorCss = ["Recent", ...categories]
 	.map(
 		(c) => `
 #category-picker:has(#${c}:checked) ~ main ul {
@@ -35,7 +44,9 @@ const categoriesSelectorCss = categories
 		<header class="col-span-12 row-span-1 h-fit">
 			<h1 class="text-2xl">📰 Carter's RSS Feeds</h1>
 			<p>
-				{feedItems.contents.length} item(s) | {feedItems.errors.length} error(s)
+				{recentCount} recent item(s) | {feedItems.contents.length} item(s) | {
+					feedItems.errors.length
+				} error(s)
 			</p>
 		</header>
 		<nav
@@ -43,7 +54,7 @@ const categoriesSelectorCss = categories
 			class="flex flex-row md:flex-col gap-2 md:gap-1 col-span-2 sticky top-4 row-span-1"
 		>
 			{
-				["All", ...categories.sort()].map((category) => (
+				["All", "Recent", ...categories.sort()].map((category) => (
 					<div>
 						<input
 							type="radio"
@@ -66,7 +77,14 @@ const categoriesSelectorCss = categories
 			<ul class="flex flex-col gap-2">
 				{
 					feedItems.contents.map((item) => (
-						<li class={`${item.category}-item`}>
+						<li
+							class:list={[
+								`${item.category}-item`,
+								{
+									"Recent-item": isRecent(item.pubIsoDate),
+								},
+							]}
+						>
 							<a href={item.link} class="">
 								<div set:html={item.title} class="underline" />
 								<div class="no-underline text-sm">
