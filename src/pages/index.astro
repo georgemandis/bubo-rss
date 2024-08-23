@@ -96,7 +96,7 @@ const categoriesSelectorCss = categories
 		(c) => `
 #category-picker:has(#${c}:checked) ~ main ul {
 	> .${c}-item {
-		display: flex;
+		display: block;
 	}
 	> *:not(.${c}-item) {
 		display: none;
@@ -217,7 +217,7 @@ const categoriesSelectorCss = categories
 				) : (
 					<ul>
 						{feedItems.errors.map((error) => (
-							<li>{error}</li>
+							<li class="break-words">{error}</li>
 						))}
 					</ul>
 				)
