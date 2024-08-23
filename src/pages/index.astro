@@ -5,7 +5,9 @@ const feedItems = await getAllFeedItems();
 const categories = Array.from(
 	new Set(feedItems.contents.map((item) => item.category)),
 ).sort();
-const categoriesSelectorCss = categories.map((c => `
+const categoriesSelectorCss = categories
+	.map(
+		(c) => `
 #category-picker:has(#${c}:checked) ~ main ul {
 	> .${c}-item {
 		display: block;
@@ -13,11 +15,13 @@ const categoriesSelectorCss = categories.map((c => `
 	> *:not(.${c}-item) {
 		display: none;
 	}
-}`)).join("\n")
+}`,
+	)
+	.join("\n");
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-full overflow-auto">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,36 +29,53 @@ const categoriesSelectorCss = categories.map((c => `
 		<title>Carter's RSS Feeds</title>
 		<link rel="icon" href="/news-emoji.svg" sizes="any" type="image/svg+xml" />
 		<link rel="manifest" href="/manifest.json" />
-		<style client:load set:html={categoriesSelectorCss}>
-		</style>
+		<style set:html={categoriesSelectorCss}></style>
 	</head>
-	<body class="font-system text-base m-4">
-		<header>
+	<body class="font-system text-base md:grid grid-cols-12 auto-rows-min p-4">
+		<header class="col-span-12 row-span-1 h-fit">
 			<h1 class="text-2xl">📰 Carter's RSS Feeds</h1>
 			<p>
 				{feedItems.contents.length} item(s) | {feedItems.errors.length} error(s)
 			</p>
 		</header>
-		<nav id="category-picker">
-			<input type="radio" id="all" name="category" checked />
-			<label for="all">All</label>
+		<nav
+			id="category-picker"
+			class="flex flex-row md:flex-col gap-2 md:gap-1 col-span-2 sticky top-4 row-span-1"
+		>
 			{
-				categories.map((category) => (
-					<>
-						<input type="radio" id={category} name="category" />
-						<label for={category}>{category}</label>
-					</>
+				["All", ...categories.sort()].map((category) => (
+					<div>
+						<input
+							type="radio"
+							id={category}
+							name="category"
+							class="hidden peer"
+							checked={category === "All"}
+						/>
+						<label
+							class="cursor-pointer transition-all peer-checked:underline opacity-25 peer-checked:opacity-100 hover:opacity-100"
+							for={category}
+						>
+							{category}
+						</label>
+					</div>
 				))
 			}
 		</nav>
-		<main>
-			<ul>
+		<main class="col-span-10 row-span-11">
+			<ul class="flex flex-col gap-2">
 				{
 					feedItems.contents.map((item) => (
 						<li class={`${item.category}-item`}>
-							<a href={item.link}>
-								<span set:html={item.title} /> | {item.feedName} |{" "}
-								{item.category} | {new Date(item.pubIsoDate).toDateString()}
+							<a href={item.link} class="">
+								<div set:html={item.title} class="underline" />
+								<div class="no-underline text-sm">
+									{[
+										new Date(item.pubIsoDate).toDateString(),
+										item.feedName,
+										item.category,
+									].join(" | ")}
+								</div>
 							</a>
 						</li>
 					))

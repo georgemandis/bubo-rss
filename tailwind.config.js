@@ -211,15 +211,4 @@ export default {
 			},
 		},
 	},
-	plugins: [
-		plugin(({ addBase }) => {
-			addBase({
-				a: {
-					textDecoration: "underline",
-					transition: "color 0.2s",
-					cursor: "pointer",
-				},
-			});
-		}),
-	],
 };
