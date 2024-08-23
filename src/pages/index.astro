@@ -125,6 +125,16 @@ const categoriesSelectorCss = categories
 		>
 			<h1 class="">Carter's RSS Feeds</h1>
 			<hr class="flex-grow h-px border-0 border-b-2 border-b-stone-500" />
+			<ul>
+				<li>
+					<a
+						href="https://github.com/carterworks/rss-reader"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="underline cursor-pointer">Github</a
+					>
+				</li>
+			</ul>
 		</header>
 		<nav
 			id="category-picker"
@@ -210,28 +220,20 @@ const categoriesSelectorCss = categories
 				}
 			</ul>
 		</main>
-		<footer class="sticky bottom-4 mt-4 md:mt-0 text-sm row-end-13 row-span-1">
+		<footer
+			class="sticky bottom-4 mt-4 md:mt-0 text-sm row-end-13 row-span-1 col-span-2 h-8 opacity-25 hover:opacity-100 transition-opacity"
+		>
 			{
 				feedItems.errors.length === 0 ? (
 					<>No errors</>
 				) : (
-					<ul>
+					<ul class="">
 						{feedItems.errors.map((error) => (
 							<li class="break-words">{error}</li>
 						))}
 					</ul>
 				)
 			}
-			<ul>
-				<li>
-					<a
-						href="https://github.com/carterworks/rss-reader"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="underline cursor-pointer">Github</a
-					>
-				</li>
-			</ul>
 		</footer>
 	</body>
 </html>
