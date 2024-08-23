@@ -6,10 +6,11 @@
 	"main": "src/index.ts",
 	"type": "module",
 	"scripts": {
-		"clean": "rm -rf dist",
-		"build": "NODE_ENV=production bun src/index.ts",
 		"check": "biome check --write ./{src,config,public} ./*.{json,js} --no-errors-on-unmatched",
-		"dev": "bun src/index.ts"
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview"
 	},
 	"author": {
 		"name": "George Mandis",
@@ -26,7 +27,9 @@
 	},
 	"license": "MIT",
 	"dependencies": {
+		"@astrojs/tailwind": "^5.1.0",
 		"@feelinglovelynow/get-relative-time": "^1.1.2",
+		"astro": "^4.14.4",
 		"chalk": "^5.2.0",
 		"node-fetch": "^3.3.1",
 		"nunjucks": "^3.2.4",

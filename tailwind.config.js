@@ -1,7 +1,7 @@
 const plugin = require("tailwindcss/plugin");
 /** @type {import('tailwindcss').Config} */
 export default {
-	content: ["./config/*.html"],
+	content: ["./src/**/*.astro"],
 	theme: {
 		extend: {
 			fontFamily: {
@@ -208,18 +208,7 @@ export default {
 					"'Segoe UI Symbol'",
 					"'Noto Color Emoji'",
 				],
-			},
+			}
 		},
 	},
-	plugins: [
-		plugin(({ addBase }) => {
-			addBase({
-				a: {
-					textDecoration: "underline",
-					transition: "color 0.2s",
-					cursor: "pointer",
-				},
-			});
-		}),
-	],
 };

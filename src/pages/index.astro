@@ -1,0 +1,229 @@
+---
+import getAllFeedItems from "../services/feeds";
+
+function isRecent(date: number): boolean {
+	const now = Date.now();
+	const sixHours = 6 * 60 * 60 * 1000;
+	return now - date < sixHours;
+}
+
+const feedItems = await getAllFeedItems();
+const recentCount = feedItems.contents.filter((item) =>
+	isRecent(item.pubIsoDate),
+).length;
+const categories = [
+	"All",
+	"Recent",
+	...Array.from(
+		new Set(feedItems.contents.map((item) => item.category)),
+	).sort(),
+];
+
+const categoryCounts = categories.reduce((acc, category) => {
+	if (category === "All") {
+		acc[category] = feedItems.contents.length;
+		return acc;
+	}
+	acc[category] = feedItems.contents.filter(
+		(item) => item.category === category,
+	).length;
+	return acc;
+}, {});
+
+const accentColors = {
+	slate: {
+		bg: "bg-slate-200 dark:bg-slate-600",
+		bl: "border-l-slate-200 dark:border-l-slate-600",
+	},
+	stone: {
+		bg: "bg-stone-200 dark:bg-stone-600",
+		bl: "border-l-stone-200 dark:border-l-stone-600",
+	},
+	red: {
+		bg: "bg-red-200 dark:bg-red-600",
+		bl: "border-l-red-200 dark:border-l-red-600",
+	},
+	amber: {
+		bg: "bg-amber-200 dark:bg-amber-600",
+		bl: "border-l-amber-200 dark:border-l-amber-600",
+	},
+	lime: {
+		bg: "bg-lime-200 dark:bg-lime-600",
+		bl: "border-l-lime-200 dark:border-l-lime-600",
+	},
+	emerald: {
+		bg: "bg-emerald-200 dark:bg-emerald-600",
+		bl: "border-l-emerald-200 dark:border-l-emerald-600",
+	},
+	cyan: {
+		bg: "bg-cyan-200 dark:bg-cyan-600",
+		bl: "border-l-cyan-200 dark:border-l-cyan-600",
+	},
+	sky: {
+		bg: "bg-sky-200 dark:bg-sky-600",
+		bl: "border-l-sky-200 dark:border-l-sky-600",
+	},
+	indigo: {
+		bg: "bg-indigo-200 dark:bg-indigo-600",
+		bl: "border-l-indigo-200 dark:border-l-indigo-600",
+	},
+	fuchsia: {
+		bg: "bg-fuchsia-200 dark:bg-fuchsia-600",
+		bl: "border-l-fuchsia-200 dark:border-l-fuchsia-600",
+	},
+	pink: {
+		bg: "bg-pink-200 dark:bg-pink-600",
+		bl: "border-l-pink-200 dark:border-l-pink-600",
+	},
+	rose: {
+		bg: "bg-rose-200 dark:bg-rose-600",
+		bl: "border-l-rose-200 dark:border-l-rose-600",
+	},
+};
+
+const pickRandomAccentColor = () => {
+	const accentColorsKeys = Object.keys(accentColors);
+	const index = Math.floor(Math.random() * accentColorsKeys.length);
+	return accentColors[accentColorsKeys[index]];
+};
+const categoryColors = categories.reduce((acc, category) => {
+	acc[category] = pickRandomAccentColor();
+	return acc;
+}, {});
+const categoriesSelectorCss = categories
+	.filter((c) => c !== "All")
+	.map(
+		(c) => `
+#category-picker:has(#${c}:checked) ~ main ul {
+	> .${c}-item {
+		display: flex;
+	}
+	> *:not(.${c}-item) {
+		display: none;
+	}
+}`,
+	)
+	.join("\n");
+---
+
+<!doctype html>
+<html lang="en" class="h-full overflow-auto">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Carter's RSS Feeds</title>
+		<link rel="icon" href="/news-emoji.svg" sizes="any" type="image/svg+xml" />
+		<link rel="manifest" href="/manifest.json" />
+		<style set:html={categoriesSelectorCss}></style>
+	</head>
+	<body
+		class="font-system text-base md:grid grid-cols-12 auto-rows-min p-4 bg-orange-50 dark:bg-slate-900 dark:text-slate-300 text-stone-700 font-semibold"
+	>
+		<header
+			class="col-span-12 row-span-1 h-fit mb-4 flex flex-row gap-8 items-center"
+		>
+			<h1 class="">Carter's RSS Feeds</h1>
+			<hr class="flex-grow h-px border-0 border-b-2 border-b-stone-500" />
+			<p>
+				{recentCount} recent item(s) | {feedItems.contents.length} item(s) | {
+					feedItems.errors.length
+				} error(s)
+			</p>
+		</header>
+		<nav
+			id="category-picker"
+			class="flex flex-row mb-2 md:flex-col gap-2 md:gap-1 col-span-2 md:sticky md:top-4 row-span-1"
+		>
+			{
+				categories.map((category) => (
+					<div>
+						<input
+							type="radio"
+							id={category}
+							name="category"
+							class="hidden peer"
+							checked={category === "All"}
+						/>
+						<label
+							class="cursor-pointer transition-all pr-4 opacity-25 peer-checked:opacity-100 hover:opacity-100 flex flex-row gap-2 items-center"
+							for={category}
+						>
+							<div
+								class:list={[
+									"w-4 h-4 rounded-full",
+									categoryColors[category].bg,
+								]}
+							/>
+							<span class="peer-checked:underline">{category}</span>
+							<span class="ml-auto">{categoryCounts[category]}</span>
+						</label>
+					</div>
+				))
+			}
+		</nav>
+		<main class="col-span-10 row-span-11">
+			<ul class="flex flex-col gap-2">
+				{
+					feedItems.contents.map((item) => (
+						<li
+							class:list={[
+								`${item.category}-item`,
+								{
+									"Recent-item": isRecent(item.pubIsoDate),
+								},
+								"flex flex-row gap-4 items-center",
+							]}
+						>
+							<a
+								href={item.link}
+								class:list={[
+									"w-full",
+									"border-l-8",
+									categoryColors[item.category].bl,
+									"hover:bg-orange-200 dark:hover:bg-slate-600",
+									"transition-all",
+									"active:bg-orange-300 dark:active:bg-slate-500",
+									"bg-orange-100 dark:bg-slate-700",
+									"visited:opacity-50",
+									"py-1 px-2",
+									"rounded-xl",
+								]}
+							>
+								<div set:html={item.title} class="underline" />
+								<div class="no-underline text-sm font-normal">
+									{[
+										new Date(item.pubIsoDate).toDateString(),
+										item.feedName,
+										item.category,
+									].join(" | ")}
+								</div>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</main>
+		<footer class="sticky bottom-4 mt-4 md:mt-0 text-sm row-end-13 row-span-1">
+			{
+				feedItems.errors.length === 0 ? (
+					<>No errors</>
+				) : (
+					<ul>
+						{feedItems.errors.map((error) => (
+							<li>{error}</li>
+						))}
+					</ul>
+				)
+			}
+			<ul>
+				<li>
+					<a
+						href="https://github.com/carterworks/rss-reader"
+						class="underline cursor-pointer">Github</a
+					>
+				</li>
+			</ul>
+		</footer>
+	</body>
+</html>
