@@ -1,7 +1,7 @@
 const plugin = require("tailwindcss/plugin");
 /** @type {import('tailwindcss').Config} */
 export default {
-	content: ["./config/*.html"],
+	content: ["./src/**/*.astro"],
 	theme: {
 		extend: {
 			fontFamily: {

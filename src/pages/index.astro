@@ -1,0 +1,65 @@
+---
+import getAllFeedItems from "../services/feeds";
+
+const feedItems = await getAllFeedItems();
+const categories = Array.from(
+	new Set(feedItems.contents.map((item) => item.category)),
+).sort();
+const categoriesSelectorCss = categories.map((c => `
+#category-picker:has(#${c}:checked) ~ main ul {
+	> .${c}-item {
+		display: block;
+	}
+	> *:not(.${c}-item) {
+		display: none;
+	}
+}`)).join("\n")
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Carter's RSS Feeds</title>
+		<link rel="icon" href="/news-emoji.svg" sizes="any" type="image/svg+xml" />
+		<link rel="manifest" href="/manifest.json" />
+		<style client:load set:html={categoriesSelectorCss}>
+		</style>
+	</head>
+	<body class="font-system text-base m-4">
+		<header>
+			<h1 class="text-2xl">📰 Carter's RSS Feeds</h1>
+			<p>
+				{feedItems.contents.length} item(s) | {feedItems.errors.length} error(s)
+			</p>
+		</header>
+		<nav id="category-picker">
+			<input type="radio" id="all" name="category" checked />
+			<label for="all">All</label>
+			{
+				categories.map((category) => (
+					<>
+						<input type="radio" id={category} name="category" />
+						<label for={category}>{category}</label>
+					</>
+				))
+			}
+		</nav>
+		<main>
+			<ul>
+				{
+					feedItems.contents.map((item) => (
+						<li class={`${item.category}-item`}>
+							<a href={item.link}>
+								<span set:html={item.title} /> | {item.feedName} |{" "}
+								{item.category} | {new Date(item.pubIsoDate).toDateString()}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</main>
+	</body>
+</html>
