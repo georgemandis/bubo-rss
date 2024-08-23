@@ -7,10 +7,9 @@ function isRecent(date: number): boolean {
 	return now - date < sixHours;
 }
 
+const yazzyUrl = import.meta.env.YAZZY_URL;
 const feedItems = await getAllFeedItems();
-const recentCount = feedItems.contents.filter((item) =>
-	isRecent(item.pubIsoDate),
-).length;
+
 const categories = [
 	"All",
 	"Recent",
@@ -18,9 +17,6 @@ const categories = [
 		new Set(feedItems.contents.map((item) => item.category)),
 	).sort(),
 ];
-
-const yazzyUrl = import.meta.env.YAZZY_URL;
-
 const categoryCounts = categories.reduce((acc, category) => {
 	if (category === "All") {
 		acc[category] = feedItems.contents.length;
@@ -88,10 +84,12 @@ const pickRandomAccentColor = () => {
 	const index = Math.floor(Math.random() * accentColorsKeys.length);
 	return accentColors[accentColorsKeys[index]];
 };
+
 const categoryColors = categories.reduce((acc, category) => {
 	acc[category] = pickRandomAccentColor();
 	return acc;
 }, {});
+
 const categoriesSelectorCss = categories
 	.filter((c) => c !== "All")
 	.map(
