@@ -14,12 +14,76 @@ const recentCount = feedItems.contents.filter((item) =>
 const categories = Array.from(
 	new Set(feedItems.contents.map((item) => item.category)),
 ).sort();
+
+const accentColors = {
+	slate: {
+		bg: "bg-slate-200",
+		bl: "border-l-slate-200",
+	},
+	stone: {
+		bg: "bg-stone-200",
+		bl: "border-l-stone-200",
+	},
+	red: {
+		bg: "bg-red-200",
+		bl: "border-l-red-200",
+	},
+	amber: {
+		bg: "bg-amber-200",
+		bl: "border-l-amber-200",
+	},
+	lime: {
+		bg: "bg-lime-200",
+		bl: "border-l-lime-200",
+	},
+	emerald: {
+		bg: "bg-emerald-200",
+		bl: "border-l-emerald-200",
+	},
+	cyan: {
+		bg: "bg-cyan-200",
+		bl: "border-l-cyan-200",
+	},
+	sky: {
+		bg: "bg-sky-200",
+		bl: "border-l-sky-200",
+	},
+	indigo: {
+		bg: "bg-indigo-200",
+		bl: "border-l-indigo-200",
+	},
+	fuchsia: {
+		bg: "bg-fuchsia-200",
+		bl: "border-l-fuchsia-200",
+	},
+	pink: {
+		bg: "bg-pink-200",
+		bl: "border-l-pink-200",
+	},
+	rose: {
+		bg: "bg-rose-200",
+		bl: "border-l-rose-200",
+	},
+};
+
+const pickRandomAccentColor = () => {
+	const accentColorsKeys = Object.keys(accentColors);
+	const index = Math.floor(Math.random() * accentColorsKeys.length);
+	return accentColors[accentColorsKeys[index]];
+};
+const categoryColors = ["All", "Recent", ...categories].reduce(
+	(acc, category) => {
+		acc[category] = pickRandomAccentColor();
+		return acc;
+	},
+	{},
+);
 const categoriesSelectorCss = ["Recent", ...categories]
 	.map(
 		(c) => `
 #category-picker:has(#${c}:checked) ~ main ul {
 	> .${c}-item {
-		display: block;
+		display: flex;
 	}
 	> *:not(.${c}-item) {
 		display: none;
@@ -40,9 +104,14 @@ const categoriesSelectorCss = ["Recent", ...categories]
 		<link rel="manifest" href="/manifest.json" />
 		<style set:html={categoriesSelectorCss}></style>
 	</head>
-	<body class="font-system text-base md:grid grid-cols-12 auto-rows-min p-4">
-		<header class="col-span-12 row-span-1 h-fit">
-			<h1 class="text-2xl">📰 Carter's RSS Feeds</h1>
+	<body
+		class="font-system text-base md:grid grid-cols-12 auto-rows-min p-4 bg-orange-50 text-stone-700 font-semibold"
+	>
+		<header
+			class="col-span-12 row-span-1 h-fit mb-4 flex flex-row gap-8 items-center"
+		>
+			<h1 class="">Carter's RSS Feeds</h1>
+			<hr class="flex-grow h-px border-0 border-b-2 border-b-stone-500" />
 			<p>
 				{recentCount} recent item(s) | {feedItems.contents.length} item(s) | {
 					feedItems.errors.length
@@ -51,7 +120,7 @@ const categoriesSelectorCss = ["Recent", ...categories]
 		</header>
 		<nav
 			id="category-picker"
-			class="flex flex-row md:flex-col gap-2 md:gap-1 col-span-2 sticky top-4 row-span-1"
+			class="flex flex-row mb-2 md:flex-col gap-2 md:gap-1 col-span-2 md:sticky md:top-4 row-span-1"
 		>
 			{
 				["All", "Recent", ...categories.sort()].map((category) => (
@@ -64,10 +133,16 @@ const categoriesSelectorCss = ["Recent", ...categories]
 							checked={category === "All"}
 						/>
 						<label
-							class="cursor-pointer transition-all peer-checked:underline opacity-25 peer-checked:opacity-100 hover:opacity-100"
+							class="cursor-pointer transition-all peer-checked:underline opacity-25 peer-checked:opacity-100 hover:opacity-100 flex flex-row gap-2 items-center"
 							for={category}
 						>
-							{category}
+							<div
+								class:list={[
+									"w-4 h-4 rounded-full",
+									categoryColors[category].bg,
+								]}
+							/>
+							<span>{category}</span>
 						</label>
 					</div>
 				))
@@ -83,11 +158,17 @@ const categoriesSelectorCss = ["Recent", ...categories]
 								{
 									"Recent-item": isRecent(item.pubIsoDate),
 								},
+								"bg-orange-100",
+								"py-1 px-2",
+								"rounded-xl",
+								"flex flex-row gap-4 items-center",
+								"border-l-8",
+								categoryColors[item.category].bl,
 							]}
 						>
 							<a href={item.link} class="">
 								<div set:html={item.title} class="underline" />
-								<div class="no-underline text-sm">
+								<div class="no-underline text-sm font-normal">
 									{[
 										new Date(item.pubIsoDate).toDateString(),
 										item.feedName,
