@@ -19,6 +19,8 @@ const categories = [
 	).sort(),
 ];
 
+const yazzyUrl = import.meta.env.YAZZY_URL;
+
 const categoryCounts = categories.reduce((acc, category) => {
 	if (category === "All") {
 		acc[category] = feedItems.contents.length;
@@ -125,11 +127,6 @@ const categoriesSelectorCss = categories
 		>
 			<h1 class="">Carter's RSS Feeds</h1>
 			<hr class="flex-grow h-px border-0 border-b-2 border-b-stone-500" />
-			<p>
-				{recentCount} recent item(s) | {feedItems.contents.length} item(s) | {
-					feedItems.errors.length
-				} error(s)
-			</p>
 		</header>
 		<nav
 			id="category-picker"
@@ -172,33 +169,44 @@ const categoriesSelectorCss = categories
 								{
 									"Recent-item": isRecent(item.pubIsoDate),
 								},
-								"flex flex-row gap-4 items-center",
+								"w-full",
+								"border-l-8",
+								categoryColors[item.category].bl,
+								"hover:bg-orange-200 dark:hover:bg-slate-600",
+								"transition-all",
+								"active:bg-orange-300 dark:active:bg-slate-500",
+								"bg-orange-100 dark:bg-slate-700",
+								"py-1 px-2",
+								"rounded-xl",
 							]}
 						>
 							<a
 								href={item.link}
-								class:list={[
-									"w-full",
-									"border-l-8",
-									categoryColors[item.category].bl,
-									"hover:bg-orange-200 dark:hover:bg-slate-600",
-									"transition-all",
-									"active:bg-orange-300 dark:active:bg-slate-500",
-									"bg-orange-100 dark:bg-slate-700",
-									"visited:opacity-50",
-									"py-1 px-2",
-									"rounded-xl",
-								]}
-							>
-								<div set:html={item.title} class="underline" />
-								<div class="no-underline text-sm font-normal">
-									{[
-										new Date(item.pubIsoDate).toDateString(),
-										item.feedName,
-										item.category,
-									].join(" | ")}
-								</div>
-							</a>
+								rel="noopener noreferrer"
+								target="_blank"
+								set:html={item.title}
+								class="underline block"
+							/>
+							<div class="no-underline text-sm font-normal">
+								<span>{new Date(item.pubIsoDate).toDateString()}</span>
+								<span>|</span>
+								<span>{item.feedName}</span>
+								<span>|</span>
+								<span>{item.category}</span>
+								{Boolean(yazzyUrl) ? (
+									<>
+										<span>|</span>
+										<a
+											href={`${yazzyUrl}/${item.link}`}
+											class="underline"
+											target="_blank"
+											rel="noopener noreferrer"
+										>
+											yazzy
+										</a>
+									</>
+								) : null}
+							</div>
 						</li>
 					))
 				}
@@ -220,6 +228,8 @@ const categoriesSelectorCss = categories
 				<li>
 					<a
 						href="https://github.com/carterworks/rss-reader"
+						target="_blank"
+						rel="noopener noreferrer"
 						class="underline cursor-pointer">Github</a
 					>
 				</li>
