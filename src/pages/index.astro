@@ -89,7 +89,7 @@ const accentColors = {
 	},
 };
 
-function makeCssClassName(str: string): string {
+function cssAttribute(str: string): string {
 	return str.toLowerCase().replace(/[^a-z0-9]/g, "-");
 }
 
@@ -108,11 +108,11 @@ const categoriesSelectorCss = categories
 	.filter((c) => c !== STATIC_CATEGORIES.All)
 	.map(
 		(c) => `
-#category-picker:has(#${makeCssClassName(c)}:checked) ~ main ul {
-	> .${makeCssClassName(c)}-item {
+#category-picker:has(#${cssAttribute(c)}:checked) ~ main ul {
+	> .${cssAttribute(c)}-item {
 		display: block;
 	}
-	> *:not(.${makeCssClassName(c)}-item) {
+	> *:not(.${cssAttribute(c)}-item) {
 		display: none;
 	}
 }`,
@@ -169,14 +169,14 @@ const categoriesSelectorCss = categories
 					<div>
 						<input
 							type="radio"
-							id={makeCssClassName(category)}
+							id={cssAttribute(category)}
 							name="category"
 							class="hidden peer"
 							checked={category === STATIC_CATEGORIES.Recent}
 						/>
 						<label
 							class="cursor-pointer transition-all opacity-25 peer-checked:opacity-100 hover:opacity-100 flex flex-row gap-2 items-center"
-							for={makeCssClassName(category)}
+							for={cssAttribute(category)}
 						>
 							<div
 								class:list={[
@@ -197,9 +197,9 @@ const categoriesSelectorCss = categories
 					feedItems.contents.map((item) => (
 						<li
 							class:list={[
-								`${makeCssClassName(item.category)}-item`,
+								`${cssAttribute(item.category)}-item`,
 								{
-									[`${STATIC_CATEGORIES.Recent}-item`]: isRecent(
+									[`${cssAttribute(STATIC_CATEGORIES.Recent)}-item`]: isRecent(
 										item.pubIsoDate,
 									),
 								},
