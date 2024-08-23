@@ -6,20 +6,30 @@ function isRecent(date: number): boolean {
 	const sixHours = 6 * 60 * 60 * 1000;
 	return now - date < sixHours;
 }
+const STATIC_CATEGORIES = {
+	All: "All",
+	Recent: "Recent",
+};
 
 const yazzyUrl = import.meta.env.YAZZY_URL;
 const feedItems = await getAllFeedItems();
 
 const categories = [
-	"All",
-	"Recent",
+	STATIC_CATEGORIES.All,
+	STATIC_CATEGORIES.Recent,
 	...Array.from(
 		new Set(feedItems.contents.map((item) => item.category)),
 	).sort(),
 ];
 const categoryCounts = categories.reduce((acc, category) => {
-	if (category === "All") {
+	if (category === STATIC_CATEGORIES.All) {
 		acc[category] = feedItems.contents.length;
+		return acc;
+	}
+	if (category === STATIC_CATEGORIES.Recent) {
+		acc[category] = feedItems.contents.filter((item) =>
+			isRecent(item.pubIsoDate),
+		).length;
 		return acc;
 	}
 	acc[category] = feedItems.contents.filter(
@@ -91,7 +101,7 @@ const categoryColors = categories.reduce((acc, category) => {
 }, {});
 
 const categoriesSelectorCss = categories
-	.filter((c) => c !== "All")
+	.filter((c) => c !== STATIC_CATEGORIES.All)
 	.map(
 		(c) => `
 #category-picker:has(#${c}:checked) ~ main ul {
@@ -148,7 +158,7 @@ const categoriesSelectorCss = categories
 							id={category}
 							name="category"
 							class="hidden peer"
-							checked={category === "All"}
+							checked={category === STATIC_CATEGORIES.All}
 						/>
 						<label
 							class="cursor-pointer transition-all pr-4 opacity-25 peer-checked:opacity-100 hover:opacity-100 flex flex-row gap-2 items-center"
@@ -175,7 +185,9 @@ const categoriesSelectorCss = categories
 							class:list={[
 								`${item.category}-item`,
 								{
-									"Recent-item": isRecent(item.pubIsoDate),
+									[`${STATIC_CATEGORIES.Recent}-item`]: isRecent(
+										item.pubIsoDate,
+									),
 								},
 								"w-full",
 								"border-l-8",
