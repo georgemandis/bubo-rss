@@ -27,6 +27,9 @@ jobs:
         uses: actions/checkout@v4
       - name: Install, build, and upload your site output
         uses: withastro/action@v2
+        env:
+          YAZZY_URL: ${{ vars.YAZZY_URL }}
+          FEEDS: ${{ vars.FEEDS }}
 
   deploy:
     needs: build
