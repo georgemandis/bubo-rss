@@ -219,7 +219,7 @@ const categoriesSelectorCss = categories
 								rel="noopener noreferrer"
 								target="_blank"
 								set:html={item.title ?? item.link}
-								class="underline block"
+								class="underline block break-words"
 							/>
 							<div class="no-underline text-sm font-normal">
 								<span>{new Date(item.pubIsoDate).toDateString()}</span>
