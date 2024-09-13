@@ -1,4 +1,4 @@
-import Parser from "rss-parser";
+import { extract } from "@extractus/feed-extractor";
 
 interface FeedItem {
 	title: string;
@@ -9,10 +9,6 @@ interface FeedItem {
 	category: string;
 }
 
-const MAX_CONNECTIONS = Number.POSITIVE_INFINITY;
-const DELAY_MS = 850;
-const parser = new Parser();
-
 function readFeedCategoriesFromEnv(): Record<string, string[]> {
 	if (import.meta.env.FEEDS) {
 		return JSON.parse(import.meta.env.FEEDS);
@@ -20,130 +16,30 @@ function readFeedCategoriesFromEnv(): Record<string, string[]> {
 	throw new Error("FEEDS environment variable is not set");
 }
 
-async function getRawFeedContents(response: Response): Promise<unknown> {
-	const contentType = response.headers.get("content-type")?.split(";")[0];
-	if (!contentType) return {};
-	if (
-		[
-			"application/atom+xml",
-			"application/rss+xml",
-			"application/xml",
-			"text/xml",
-			"text/html",
-		].includes(contentType)
-	) {
-		return response.text();
-	}
-	if (["application/json", "application/feed+json"].includes(contentType)) {
-		return response.json();
-	}
-	return {};
-}
-
-interface RawFeedItem {
-	creator?: string;
-	title: string;
-	link: string;
-	pubDate: string;
-	"content:encoded"?: string;
-	"content:encodedSnippet"?: string;
-	"dc:creator"?: string;
-	comments?: string;
-	content: string;
-	contentSnippet: string;
-	guid: string;
-	categories: unknown[];
-	isoDate: string;
-	[other: string]: unknown;
-}
-
-interface RawFeed {
-	items: RawFeedItem[];
-	feedUrl?: string;
-	image?: {
-		link: string;
-		url: string;
-		title: string;
-		width: string;
-		height: string;
-	};
-	pagenationLinks?: {
-		self: string;
-		next: string;
-	};
-	title: string;
-	description: string;
-	generator: string;
-	link: string;
-	language?: string;
-	lastBuildDate?: string;
-	[other: string]: unknown;
-}
-
-function getTitle(item: RawFeed | RawFeedItem): string {
-	const titleValues: (keyof RawFeed | keyof RawFeedItem)[] = [
-		"title",
-		"url",
-		"link",
-	];
-	const keys = Object.keys(item);
-	const titleProperty = titleValues.find(
-		(titleValue) => keys.includes(titleValue) && item[titleValue],
-	);
-	return titleProperty ? (item[titleProperty] as string) : "";
-}
-
-function getLink(item: RawFeed | RawFeedItem): string {
-	const linkValues: (keyof RawFeed | keyof RawFeedItem)[] = [
-		"link",
-		"url",
-		"guid",
-		"home_page_url",
-	];
-	const keys = Object.keys(item);
-	const linkProperty = linkValues.find((linkValue) => keys.includes(linkValue));
-	return linkProperty ? (item[linkProperty] as string) : "";
-}
-
-function getTimestamp(item: RawFeedItem): number {
-	const dateString =
-		item.pubDate || item.isoDate || item.date || item.date_published;
-	if (!dateString || typeof dateString !== "string") {
-		return Date.now();
-	}
-	const timestamp = new Date(dateString).getTime();
-	return Number.isNaN(timestamp) ? Date.now() : timestamp;
-}
-
 async function parseFeedContents(
 	feedUrl: string,
 	category: string,
 ): Promise<FeedItem[]> {
 	console.log(`Fetching: ${feedUrl}...`);
-	const response = await fetch(feedUrl);
-	const body = await getRawFeedContents(response);
-	if (!body) {
-		throw new Error(`Failed to fetch feed: ${feedUrl}`);
-	}
+	let items: FeedItem[] = [];
 	try {
-		const rawFeed = (
-			typeof body === "string" ? await parser.parseString(body) : body
-		) as RawFeed;
-		const feedName = getTitle(rawFeed);
-		const feedLink = getLink(rawFeed);
-		const items: FeedItem[] = rawFeed.items.flatMap((item) => ({
-			feedName,
-			feedLink,
+		const result = await extract(feedUrl, {
+			descriptionMaxLen: 1,
+			useISODateFormat: false,
+		});
+		items = (result.entries ?? []).map((entry) => ({
+			feedName: result.title,
+			feedLink: result.link,
 			category,
-			title: item.title,
-			pubIsoDate: getTimestamp(item),
-			link: item.link,
+			title: entry.title,
+			pubIsoDate: new Date(entry.published).getTime(),
+			link: entry.link,
 		}));
-		return items;
 	} catch (err) {
 		console.error(`${feedUrl}\n${err}`);
 		throw err;
 	}
+	return items;
 }
 
 export default async function getAllFeedItems(): Promise<{
