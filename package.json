@@ -28,7 +28,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@astrojs/tailwind": "^5.1.0",
-		"astro": "^4.14.4",
+		"astro": "4.15.6",
 		"rss-parser": "^3.13.0"
 	},
 	"devDependencies": {
