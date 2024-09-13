@@ -1,6 +1,6 @@
 ---
 import getAllFeedItems from "../services/feeds";
-
+const start = performance.now();
 function isRecent(date: number): boolean {
 	const now = Date.now();
 	const sixHours = 6 * 60 * 60 * 1000;
@@ -13,6 +13,8 @@ const STATIC_CATEGORIES = {
 
 const yazzyUrl = import.meta.env.YAZZY_URL;
 const feedItems = await getAllFeedItems();
+const parseTime = performance.now() - start;
+const updateTime = new Date().toLocaleString();
 
 const categories = [
 	STATIC_CATEGORIES.All,
@@ -150,6 +152,12 @@ const categoriesSelectorCss = categories
 						<li>{feedItems.errors.length} error(s)</li>
 					) : null
 				}
+				<li>
+					Took {(parseTime / 1000).toFixed(0)}s
+				</li>
+				<li>
+					Last updated at {updateTime}
+				</li>
 				<li>
 					<a
 						href="https://github.com/carterworks/rss-reader"
