@@ -119,7 +119,7 @@ If you already have a server running Linux and some command-line experience it m
 
 You can view live demos here:
 
-- [https://bubo-rss-demo.netlify.com/](https://bubo-rss-demo.netlify.com/)
+- [https://bubo-rss-demo.netlify.app/](https://bubo-rss-demo.netlify.app/)
 - [http://bubo-rss.glitch.me/](http://bubo-rss.glitch.me/)
 
 ## Support
