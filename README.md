@@ -2,7 +2,7 @@
 
 # 🦉 Bubo Reader
 
-Bubo Reader is a hyper-minimalist feed reader (RSS, Atom, JSON) you can deploy on your own server, [Netlify](https://netlify.com) in a few steps or [Glitch](https://glitch.com) in even fewer steps! The goal of the project is to generate a webpage that shows a list of links from a collection of feeds organized by category and website. That's it.
+Bubo Reader is a hyper-minimalist feed reader (RSS, Atom, JSON) you can deploy on your own server or [Netlify](https://netlify.com) in a few steps. The goal of the project is to generate a webpage that shows a list of links from a collection of feeds organized by category and website. That's it.
 
 It is named after this [silly robot owl](https://www.youtube.com/watch?v=MYSeCfo9-NI) from Clash of the Titans (1981).
 
@@ -72,20 +72,8 @@ In practice, I've never _really_ run into an issue leaving `MAX_CONNECTIONS` set
     <strong>Getting Started</strong>
   </summary>
 
-- [Deploying to Glitch](#glitch)
 - [Deploying to Netlify](#netlify)
 - [Keeping feeds updated](#updated)
-
-<a id="glitch"></a>
-
-## Deploying to Glitch
-
-The quickest way is to remix the project on Glitch:
-[https://glitch.com/edit/#!/bubo-rss](https://glitch.com/edit/#!/bubo-rss)
-
-There is also a `glitch` branch on this repo if you'd prefer to start there.
-
-Just change some feeds in `./config/feeds.json` file and you're set! If you'd like to modify the style or the template you can changed `./public/style.css` file or the `./config/template.html` file respectively.
 
 <a id="netlify"></a>
 
@@ -120,7 +108,6 @@ If you already have a server running Linux and some command-line experience it m
 You can view live demos here:
 
 - [https://bubo-rss-demo.netlify.app/](https://bubo-rss-demo.netlify.app/)
-- [http://bubo-rss.glitch.me/](http://bubo-rss.glitch.me/)
 
 ## Support
 
